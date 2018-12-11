@@ -35,7 +35,7 @@ public class DAGHelper {
      */
     public static DAGHelper get(Tangle tangle) {
         DAGHelper instance;
-        instance = instances.computeIfAbsent(tangle, instances -> new DAGHelper(tangle));
+        instances.computeIfAbsent(tangle, instances -> new DAGHelper(tangle));
         synchronized(DAGHelper.class) {
             if((instance = instances.get(tangle)) == null) {
                 instance = new DAGHelper(tangle);
