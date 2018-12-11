@@ -303,7 +303,7 @@ public class TransactionValidator {
                 try {
                     Thread.sleep(SOLID_SLEEP_TIME);
                 } catch (InterruptedException e) {
-                    // Ignoring InterruptedException. Do not use Thread.currentThread().interrupt() here.
+                    Thread.currentThread().interrupt();
                     log.error("Thread was interrupted: ", e);
                 }
             }
