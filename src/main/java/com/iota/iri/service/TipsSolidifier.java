@@ -47,6 +47,7 @@ public class TipsSolidifier {
                 try {
                     Thread.sleep(RESCAN_TX_TO_REQUEST_INTERVAL);
                 } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
                     log.error("Solidity rescan interrupted.");
                 }
             }
