@@ -57,7 +57,8 @@ public class ReplicatorSinkPool  implements Runnable {
             // Restart attempt for neighbors that are in the configuration.
             try {
                 Thread.sleep(30000);
-            } catch (InterruptedException e) {
+            } catch (InterruptedException e) { // si risolve con
+                //Thread.currentThread().interrupt(); //blocca il thread, perchè ha un problema
                 log.debug("Interrupted: ", e);
             }
             List<Neighbor> neighbors = node.getNeighbors();
