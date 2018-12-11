@@ -420,7 +420,7 @@ public class RocksDBPersistenceProvider implements PersistenceProvider {
     }
 
     private void initDB(String path, String logPath) {
-        try {
+        try (MergeOperator mergeOperator = new StringAppendOperator();){
             try {
                 RocksDB.loadLibrary();
             } catch (Exception e) {
@@ -470,7 +470,7 @@ public class RocksDBPersistenceProvider implements PersistenceProvider {
 
             options.setAllowConcurrentMemtableWrite(true);
 
-            MergeOperator mergeOperator = new StringAppendOperator();
+
             ColumnFamilyOptions columnFamilyOptions = new ColumnFamilyOptions()
                 .setMergeOperator(mergeOperator)
                 .setTableFormatConfig(blockBasedTableConfig)
