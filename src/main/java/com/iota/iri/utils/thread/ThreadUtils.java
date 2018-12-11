@@ -44,7 +44,8 @@ public class ThreadUtils {
      */
     public static Thread spawnThread(Runnable runnable, ThreadIdentifier threadIdentifier) {
         if (threads.get(threadIdentifier) == null || threads.get(threadIdentifier).isInterrupted()) {
-            synchronized(threadIdentifier) {
+            final Object lockObj = threadIdentifier;
+            synchronized(lockObj) {
                 if (threads.get(threadIdentifier) == null || threads.get(threadIdentifier).isInterrupted()) {
                     threads.put(threadIdentifier, spawnThread(runnable, threadIdentifier.getName()));
                 }

@@ -1749,7 +1749,7 @@ public class API {
         final byte[] lastIndexTrits = new byte[TransactionViewModel.LAST_INDEX_TRINARY_SIZE];
         byte[] currentIndexTrits = new byte[TransactionViewModel.CURRENT_INDEX_TRINARY_SIZE];
 
-        Converter.copyTrits(txCount - 1, lastIndexTrits, 0, lastIndexTrits.length);
+        Converter.copyTrits((long)txCount - 1, lastIndexTrits, 0, lastIndexTrits.length);
         final String lastIndexTrytes = Converter.trytes(lastIndexTrits);
 
         List<String> transactions = new ArrayList<>();
