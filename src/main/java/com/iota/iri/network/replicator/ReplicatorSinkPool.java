@@ -59,7 +59,7 @@ public class ReplicatorSinkPool  implements Runnable {
             try {
                 Thread.sleep(30000);
             } catch (InterruptedException e) { // si risolve con
-                //Thread.currentThread().interrupt(); //blocca il thread, perchè ha un problema
+                Thread.currentThread().interrupt(); //blocca il thread, perchè ha un problema
                 log.debug("Interrupted: ", e);
             }
             List<Neighbor> neighbors = node.getNeighbors();
