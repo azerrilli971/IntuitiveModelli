@@ -114,6 +114,7 @@ class ReplicatorSinkProcessor implements Runnable {
                                 }
                             }
                         } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
                             log.error("Interrupted while waiting for send buffer");
                         }                        
                     }
