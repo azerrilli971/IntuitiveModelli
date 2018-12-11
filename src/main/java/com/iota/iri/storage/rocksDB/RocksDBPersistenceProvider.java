@@ -420,7 +420,8 @@ public class RocksDBPersistenceProvider implements PersistenceProvider {
     }
 
     private void initDB(String path, String logPath) {
-        try (MergeOperator mergeOperator = new StringAppendOperator();){
+        try (MergeOperator mergeOperator = new StringAppendOperator();
+             ColumnFamilyOptions columnFamilyOptions = new ColumnFamilyOptions();){
             try {
                 RocksDB.loadLibrary();
             } catch (Exception e) {
@@ -468,14 +469,12 @@ public class RocksDBPersistenceProvider implements PersistenceProvider {
                 .setBlockCacheCompressedNumShardBits(10)
                 .setBlockCacheCompressedSize(32 * SizeUnit.KB);
 
+            columnFamilyOptions.setMergeOperator(mergeOperator)
+            .setTableFormatConfig(blockBasedTableConfig)
+            .setMaxWriteBufferNumber(2)
+            .setWriteBufferSize(2 * SizeUnit.MB);
+
             options.setAllowConcurrentMemtableWrite(true);
-
-
-            ColumnFamilyOptions columnFamilyOptions = new ColumnFamilyOptions()
-                .setMergeOperator(mergeOperator)
-                .setTableFormatConfig(blockBasedTableConfig)
-                .setMaxWriteBufferNumber(2)
-                .setWriteBufferSize(2 * SizeUnit.MB);
 
             List<ColumnFamilyDescriptor> columnFamilyDescriptors = new ArrayList<>();
             for (String name : columnFamilyNames) {
