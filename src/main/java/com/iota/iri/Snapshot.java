@@ -25,16 +25,12 @@ public class Snapshot {
     private static final int SNAPSHOT_INDEX = 9;
     private static Snapshot initialSnapshot;
     protected final Map<Hash, Long> state;
-    static int ciaone = 1;
-    static int hellone = 2;
     private int index;
 
     public final ReadWriteLock rwlock = new ReentrantReadWriteLock();
 
 
     public static Snapshot init(SnapshotConfig config) throws IOException {
-        System.out.println(ciaone);
-        System.out.println(hellone);
         //This is not thread-safe (and it is ok)
         if (initialSnapshot == null) {
             String snapshotFile = config.getSnapshotFile();
