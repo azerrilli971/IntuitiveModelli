@@ -4,6 +4,7 @@ import com.iota.iri.conf.ZMQConfig;
 import com.iota.iri.utils.IotaIOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xnio.XnioIoThread;
 import org.zeromq.ZMQ;
 
 import java.util.concurrent.ExecutorService;
@@ -89,6 +90,7 @@ public class MessageQ {
         try {
             publisherService.awaitTermination(5, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
             LOG.error("Publisher service shutdown failed.", e);
         }
 

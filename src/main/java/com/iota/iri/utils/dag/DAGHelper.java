@@ -35,16 +35,14 @@ public class DAGHelper {
      */
     public static DAGHelper get(Tangle tangle) {
         DAGHelper instance;
-        if((instance = instances.get(tangle)) == null) {
-            synchronized(DAGHelper.class) {
-                if((instance = instances.get(tangle)) == null) {
-                    instance = new DAGHelper(tangle);
+        instance = instances.computeIfAbsent(tangle, instances -> new DAGHelper(tangle));
+        synchronized(DAGHelper.class) {
+            if((instance = instances.get(tangle)) == null) {
+                instance = new DAGHelper(tangle);
 
-                    instances.put(tangle, instance);
-                }
+                instances.put(tangle, instance);
             }
         }
-
         return instance;
     }
 
