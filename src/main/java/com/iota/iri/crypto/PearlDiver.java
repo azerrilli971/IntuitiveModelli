@@ -34,9 +34,9 @@ public class PearlDiver {
 
     /**
      * Searches for a nonce such that the hash ends with {@code minWeightMagnitude} zeros.<br>
-     * To add the {@value com.iota.iri.controllers.TransactionViewModel#NONCE_TRINARY_SIZE}
+     * To add the {@value com.iota.iri.controllers.TransactionViewModel#}
      * trits long nounce {@code transactionTrits} are changed from the following offset:
-     * {@value com.iota.iri.controllers.TransactionViewModel#NONCE_TRINARY_OFFSET} <br>
+     * {@value com.iota.iri.controllers.TransactionViewModel#} <br>
      *
      * @param transactionTrits trits of transaction
      * @param minWeightMagnitude target weight for trailing zeros
@@ -75,6 +75,8 @@ public class PearlDiver {
             try {
                 worker.join();
             } catch (InterruptedException e) {
+                Thread.interrupted();
+
                 synchronized (syncObj) {
                     state = State.CANCELLED;
                 }
