@@ -45,6 +45,7 @@ public class ReplicatorSinkPool  implements Runnable {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt(); //Aggiunta dell'interruzione del thread
                     log.error("Interrupted");
                 }
             }
