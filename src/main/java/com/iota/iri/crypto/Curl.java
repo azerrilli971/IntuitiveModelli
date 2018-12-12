@@ -79,7 +79,7 @@ public class Curl implements Sponge {
                 } else {
                     scratchpadIndex += -365;
                 }
-                state[stateIndex]  = TRUTH_TABLE[(byte)(scratchpad[prevScratchpadIndex]  + (scratchpad[scratchpadIndex] << 2) + 5)] ;
+                state[stateIndex]  = TRUTH_TABLE[(byte)(scratchpad[prevScratchpadIndex]  + (byte) (scratchpad[scratchpadIndex] << 2) + 5)] ;
             }
         }
     }
