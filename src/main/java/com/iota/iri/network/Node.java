@@ -569,7 +569,8 @@ public class Node {
             return;
         }
 
-        synchronized (sendingPacket) {
+
+        synchronized (sendingPacket.getData()) {
             System.arraycopy(transactionViewModel.getBytes(), 0, sendingPacket.getData(), 0, TransactionViewModel.SIZE);
             Hash hash = transactionRequester.transactionToRequest(rnd.nextDouble() < configuration.getpSelectMilestoneChild());
             System.arraycopy(hash != null ? hash.bytes() : transactionViewModel.getHash().bytes(), 0,
