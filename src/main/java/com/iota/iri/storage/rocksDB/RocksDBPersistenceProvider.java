@@ -540,9 +540,9 @@ public class RocksDBPersistenceProvider implements PersistenceProvider {
 
     // 2018 March 28 - Unused Code
     private void addColumnFamily(byte[] familyName, RocksDB db) throws RocksDBException {
-        final ColumnFamilyHandle columnFamilyHandle = db.createColumnFamily(
-                new ColumnFamilyDescriptor(familyName, new ColumnFamilyOptions()));
-
-        assert (columnFamilyHandle != null);
+        try(final ColumnFamilyHandle columnFamilyHandle = db.createColumnFamily(
+                new ColumnFamilyDescriptor(familyName, new ColumnFamilyOptions())); ) {
+            assert (columnFamilyHandle != null);
+        }
     }
 }
