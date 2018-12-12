@@ -33,8 +33,7 @@ public abstract class BaseIotaConfig implements IotaConfig {
     protected int maxBodyLength = Defaults.MAX_BODY_LENGTH;
     protected String remoteAuth = Defaults.REMOTE_AUTH;
     //We don't have a REMOTE config but we have a remote flag. We must add a field for JCommander
-    private boolean remote;
-
+    private boolean remote = true;
 
     //Network
     protected int udpReceiverPort = Defaults.UDP_RECEIVER_PORT;
@@ -149,6 +148,7 @@ public abstract class BaseIotaConfig implements IotaConfig {
     @Parameter(names = {"--remote"}, description = APIConfig.Descriptions.REMOTE)
     protected void setRemote(boolean remote) {
         this.apiHost = "0.0.0.0";
+        this.remote = remote;
     }
 
     @Override
