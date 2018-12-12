@@ -29,7 +29,7 @@ public class PearlDiver {
     private static final long HIGH_BITS = 0b11111111_11111111_11111111_11111111_11111111_11111111_11111111_11111111L;
     private static final long LOW_BITS = 0b00000000_00000000_00000000_00000000_00000000_00000000_00000000_00000000L;
 
-    private volatile State state;
+    private  State state; //remove volatile
     private final Object syncObj = new Object();
 
     /**
@@ -75,7 +75,7 @@ public class PearlDiver {
             try {
                 worker.join();
             } catch (InterruptedException e) {
-                Thread.interrupted();
+                Thread.currentThread().interrupt();
 
                 synchronized (syncObj) {
                     state = State.CANCELLED;

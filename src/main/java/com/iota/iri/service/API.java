@@ -92,7 +92,7 @@ public class API {
     private Undertow server;
 
     private final Gson gson = new GsonBuilder().create();
-    private volatile PearlDiver pearlDiver = new PearlDiver();
+    private PearlDiver pearlDiver = new PearlDiver(); //remove volatile
 
     private final AtomicInteger counter = new AtomicInteger(0);
 
