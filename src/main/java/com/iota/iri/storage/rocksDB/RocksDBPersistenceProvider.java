@@ -329,7 +329,8 @@ public class RocksDBPersistenceProvider implements PersistenceProvider {
     public void deleteBatch(Collection<Pair<Indexable, ? extends Class<? extends Persistable>>> models)
             throws Exception {
         if (CollectionUtils.isNotEmpty(models)) {
-            try (WriteBatch writeBatch = new WriteBatch()) {
+            try (WriteBatch writeBatch = new WriteBatch();
+             WriteOptions writeOptions = new WriteOptions();) {
                 models.forEach(entry -> {
                     Indexable indexable = entry.low;
                     byte[] keyBytes = indexable.bytes();
@@ -340,10 +341,8 @@ public class RocksDBPersistenceProvider implements PersistenceProvider {
                         writeBatch.remove(metadataHandle, keyBytes);
                     }
                 });
-
-                WriteOptions writeOptions = new WriteOptions()
                         //We are explicit about what happens if the node reboots before a flush to the db
-                        .setDisableWAL(false)
+                        writeOptions.setDisableWAL(false)
                         //We want to make sure deleted data was indeed deleted
                         .setSync(true);
                 db.write(writeOptions, writeBatch);
