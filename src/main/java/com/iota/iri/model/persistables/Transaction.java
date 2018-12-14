@@ -29,7 +29,7 @@ public class Transaction implements Persistable {
     private Hash branch;
     private Hash obsoleteTag;
     private long value;
-    public long currentIndex;
+    private long currentIndex;
     private long lastIndex;
     private long timestamp;
 
@@ -80,6 +80,8 @@ public class Transaction implements Persistable {
     public void setObsoleteTag( Hash newObsoleteTag) {this.obsoleteTag = newObsoleteTag;}
     public long getValue() {return value;}
     public void setValue(long newValue) {this.value = newValue;}
+    public long getCurrentIndex(){return currentIndex;}
+    public void setCurrentIndex(long newCurrentIndex) {this.currentIndex = newCurrentIndex;}
 
     public boolean getParsed() {return parsed;}
 
