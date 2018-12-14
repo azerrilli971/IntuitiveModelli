@@ -26,7 +26,7 @@ public class Transaction implements Persistable {
     private Hash address;
     private Hash bundle;
     private Hash trunk;
-    public Hash branch;
+    private Hash branch;
     public Hash obsoleteTag;
     public long value;
     public long currentIndex;
@@ -74,6 +74,8 @@ public class Transaction implements Persistable {
     public void setBundle( Hash newBundle) {this.bundle = newBundle;}
     public Hash getTrunk(){return trunk;}
     public void setTrunk (Hash newTrunk){this.trunk = newTrunk;}
+    public Hash getBranch(){return branch;}
+    public void setBranch(Hash newBranch) {this.branch = newBranch;}
 
     public boolean getParsed() {return parsed;}
 

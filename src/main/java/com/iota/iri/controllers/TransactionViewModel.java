@@ -565,10 +565,10 @@ public class TransactionViewModel {
      * @return The branch {@link TransactionHash} identifier.
      */
     public Hash getBranchTransactionHash() {
-        if(transaction.branch == null) {
-            transaction.branch = HashFactory.TRANSACTION.create(trits(), BRANCH_TRANSACTION_TRINARY_OFFSET);
+        if(transaction.getBranch() == null) {
+            transaction.setBranch(HashFactory.TRANSACTION.create(trits(), BRANCH_TRANSACTION_TRINARY_OFFSET)) ;
         }
-        return transaction.branch;
+        return transaction.getBranch();
     }
 
     /**
