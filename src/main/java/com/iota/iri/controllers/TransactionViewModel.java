@@ -65,7 +65,14 @@ public class TransactionViewModel {
     public final static int FILLED_SLOT = -1; //  knows the hash only coz another tx references that hash
 
     private byte[] trits;
-    public int weightMagnitude;
+
+    private int weightMagnitude;
+
+    public int getWeightMagnitude() {return weightMagnitude;}
+
+    public void setWeightMagnitude(int firstWeightMagnitude){
+        this.weightMagnitude = firstWeightMagnitude;
+    }
 
 
 

@@ -414,7 +414,7 @@ public class Node {
     }
 
     /**
-     * Adds incoming transactions to the {@link replyQueue} to be processed later
+     * Adds incoming transactions to the {@link } to be processed later
      */
     public void addReceivedDataToReplyQueue(Hash requestedHash, Neighbor neighbor) {
         replyQueue.add(new ImmutablePair<>(requestedHash, neighbor));
@@ -425,7 +425,7 @@ public class Node {
 
     /**
      * Picks up a transaction and neighbor pair from receive queue. Calls 
-     * {@link processReceivedData} on the pair. 
+     * {@link } on the pair.
      */
     public void processReceivedDataFromQueue() {
         final Pair<TransactionViewModel, Neighbor> receivedData = receiveQueue.pollFirst();
@@ -447,7 +447,7 @@ public class Node {
 
     /**
      * This is second step of incoming transaction processing. The newly received 
-     * and validated transactions are stored in {@link receiveQueue}. This function
+     * and validated transactions are stored in {@link }. This function
      * picks up these transaction and stores them into the {@link Tangle} Database. The 
      * transaction is then added to the broadcast queue, to be fruther spammed to the neighbors. 
      */
@@ -481,7 +481,7 @@ public class Node {
 
     /**
      * This is second step of incoming transaction processing. The newly received 
-     * and validated transactions are stored in {@link receiveQueue}. This function
+     * and validated transactions are stored in {@link }. This function
      * picks up these transaction and stores them into the {@link Tangle} Database. The 
      * transaction is then added to the broadcast queue, to be fruther spammed to the neighbors. 
      */
@@ -553,7 +553,7 @@ public class Node {
     /**
      * Sends a Datagram to the neighbour. Also appends a random hash request 
      * to the outgoing packet. Note that this is only used for UDP handling. For TCP
-     * the outgoing packets are sent by {@link ReplicatorSinkProcessor}
+     * the outgoing packets are sent by {@link }
      * 
      * @param {@link DatagramPacket} sendingPacket the UDP payload buffer
      * @param {@link TransactionViewModel} transactionViewModel which should be sent.  
@@ -703,7 +703,7 @@ public class Node {
 
     private static ConcurrentSkipListSet<TransactionViewModel> weightQueue() {
         return new ConcurrentSkipListSet<>((transaction1, transaction2) -> {
-            if (transaction1.weightMagnitude == transaction2.weightMagnitude) {
+            if (transaction1.getWeightMagnitude() == transaction2.getWeightMagnitude()) {
                 for (int i = Hash.SIZE_IN_BYTES; i-- > 0; ) {
                     if (transaction1.getHash().bytes()[i] != transaction2.getHash().bytes()[i]) {
                         return transaction2.getHash().bytes()[i] - transaction1.getHash().bytes()[i];
@@ -711,7 +711,7 @@ public class Node {
                 }
                 return 0;
             }
-            return transaction2.weightMagnitude - transaction1.weightMagnitude;
+            return transaction2.getWeightMagnitude() - transaction1.getWeightMagnitude();
         });
     }
 
@@ -736,7 +736,7 @@ public class Node {
             TransactionViewModel tx1 = transaction1.getLeft();
             TransactionViewModel tx2 = transaction2.getLeft();
 
-            if (tx1.weightMagnitude == tx2.weightMagnitude) {
+            if (tx1.getWeightMagnitude() == tx2.getWeightMagnitude()) {
                 for (int i = Hash.SIZE_IN_BYTES; i-- > 0; ) {
                     if (tx1.getHash().bytes()[i] != tx2.getHash().bytes()[i]) {
                         return tx2.getHash().bytes()[i] - tx1.getHash().bytes()[i];
@@ -744,7 +744,7 @@ public class Node {
                 }
                 return 0;
             }
-            return tx2.weightMagnitude - tx1.weightMagnitude;
+            return tx2.getWeightMagnitude() - tx1.getWeightMagnitude();
         });
     }
 
