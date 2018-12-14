@@ -586,12 +586,12 @@ public class TransactionViewModel {
     }
 
     /**
-     * Gets the {@link Transaction#attachmentTimestamp}. The <tt>Attachment Timestapm</tt> is used to show when
+     * Gets the {@link Transaction attachmentTimestamp}. The <tt>Attachment Timestapm</tt> is used to show when
      * a transaction has been attached to the database.
      *
-     * @return The {@link Transaction#attachmentTimestamp}
+     * @return The {@link Transaction attachmentTimestamp}
      */
-    public long getAttachmentTimestamp() { return transaction.attachmentTimestamp; }
+    public long getAttachmentTimestamp() { return transaction.getAttachmentTimestamp(); }
 
     /**
      * Gets the {@link Transaction#attachmentTimestampLowerBound}. The <tt>Attachment Timestamp Lower Bound</tt>
@@ -676,13 +676,13 @@ public class TransactionViewModel {
 
     /**
      * Fetches the {@link Transaction tag}, and converts the transaction trits for the
-     * {@link Transaction#attachmentTimestamp}, the {@link Transaction#attachmentTimestampLowerBound}, and the
+     * {@link Transaction attachmentTimestamp}, the {@link Transaction#attachmentTimestampLowerBound}, and the
      * {@link Transaction#attachmentTimestampUpperBound} to long values.The method then sets these values to the
      * {@link TransactionViewModel} metadata.
      */
     public void setAttachmentData() {
         getTagValue();
-        transaction.attachmentTimestamp = Converter.longValue(trits(), ATTACHMENT_TIMESTAMP_TRINARY_OFFSET, ATTACHMENT_TIMESTAMP_TRINARY_SIZE);
+        transaction.setAttachmentTimestamp(Converter.longValue(trits(), ATTACHMENT_TIMESTAMP_TRINARY_OFFSET, ATTACHMENT_TIMESTAMP_TRINARY_SIZE));
         transaction.attachmentTimestampLowerBound = Converter.longValue(trits(), ATTACHMENT_TIMESTAMP_LOWER_BOUND_TRINARY_OFFSET, ATTACHMENT_TIMESTAMP_LOWER_BOUND_TRINARY_SIZE);
         transaction.attachmentTimestampUpperBound = Converter.longValue(trits(), ATTACHMENT_TIMESTAMP_UPPER_BOUND_TRINARY_OFFSET, ATTACHMENT_TIMESTAMP_UPPER_BOUND_TRINARY_SIZE);
 

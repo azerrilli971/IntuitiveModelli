@@ -34,7 +34,7 @@ public class Transaction implements Persistable {
     private long timestamp;
 
     private Hash tag;
-    public long attachmentTimestamp;
+    private long attachmentTimestamp;
     public long attachmentTimestampLowerBound;
     public long attachmentTimestampUpperBound;
 
@@ -65,6 +65,9 @@ public class Transaction implements Persistable {
     //getter e setter per la variabile privata tag
     public Hash getTag() {return tag;}
     public void setTag(Hash newTag){this.tag = newTag;}
+    //getter e setter per la variabile privata attachmentTimestamp
+    public long getAttachmentTimestamp() {return attachmentTimestamp;}
+    public void setAttachmentTimestamp (long newAttachmentTimestamp) {this.attachmentTimestamp = newAttachmentTimestamp;}
 
     public boolean getParsed() {return parsed;}
 
