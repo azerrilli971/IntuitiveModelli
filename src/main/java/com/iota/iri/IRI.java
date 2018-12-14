@@ -89,8 +89,8 @@ public class IRI {
         private static final Logger log = LoggerFactory.getLogger(IRILauncher.class);
 
         private static Iota iota;
-        public static API api;
-        public static IXI ixi;
+        private static API api;
+        private static IXI ixi;
 
         /**
          * Starts IRI. Setup is as follows:
