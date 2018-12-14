@@ -541,10 +541,10 @@ public class TransactionViewModel {
      * @return The {@link BundleHash} identifier.
      */
     public Hash getBundleHash() {
-        if(transaction.bundle == null) {
-            transaction.bundle = HashFactory.BUNDLE.create(trits(), BUNDLE_TRINARY_OFFSET);
+        if(transaction.getBundle() == null) {
+            transaction.setBundle(HashFactory.BUNDLE.create(trits(), BUNDLE_TRINARY_OFFSET)) ;
         }
-        return transaction.bundle;
+        return transaction.getBundle();
     }
 
     /**

@@ -24,7 +24,7 @@ public class Transaction implements Persistable {
     private byte[] bytes;
 
     private Hash address;
-    public Hash bundle;
+    private Hash bundle;
     public Hash trunk;
     public Hash branch;
     public Hash obsoleteTag;
@@ -70,6 +70,8 @@ public class Transaction implements Persistable {
     public void setAttachmentTimestamp (long newAttachmentTimestamp) {this.attachmentTimestamp = newAttachmentTimestamp;}
     public Hash getAddress() {return address;}
     public void setAddress(Hash newAddress) {this.address = newAddress;}
+    public Hash getBundle(){return bundle;}
+    public void setBundle( Hash newBundle) {this.bundle = newBundle;}
 
     public boolean getParsed() {return parsed;}
 
