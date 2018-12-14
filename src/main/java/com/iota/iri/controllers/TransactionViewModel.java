@@ -772,17 +772,17 @@ public class TransactionViewModel {
         return transaction.getMilestone();
     }
 
-    /**@return The current {@link Transaction#height}*/
+    /**@return The current {@link Transaction#}*/
     public long getHeight() {
-        return transaction.height;
+        return transaction.getHeight();
     }
 
     /**
-     * Updates the {@link Transaction#height}.
+     * Updates the {@link Transaction#}.
      * @param height The new height of the {@link Transaction}
      */
     private void updateHeight(long height) throws Exception {
-        transaction.height = height;
+        transaction.setHeight(height);
     }
 
     /**

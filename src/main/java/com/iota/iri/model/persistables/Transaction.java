@@ -52,7 +52,7 @@ public class Transaction implements Persistable {
      */
     private boolean milestone = false;
 
-    public long height = 0;
+    private long height = 0;
     public String sender = "";
     public int snapshot;
 
@@ -73,6 +73,14 @@ public class Transaction implements Persistable {
     public void setMilestone(boolean firstMilestone){
         this.milestone = firstMilestone;
     }
+
+    public long getHeight() {return height;}
+
+    public void setHeight(long firstHeight){
+        this.height = firstHeight;
+    }
+
+
 
 
     public byte[] bytes() {
