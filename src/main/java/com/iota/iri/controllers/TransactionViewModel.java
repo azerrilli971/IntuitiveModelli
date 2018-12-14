@@ -84,7 +84,7 @@ public class TransactionViewModel {
      * @param hash The {@link Hash} identifier of the {@link Transaction} set
      */
     public TransactionViewModel(final Transaction transaction, Hash hash) {
-        this.transaction = transaction == null || transaction.bytes == null ? new Transaction(): transaction;
+        this.transaction = transaction == null || transaction.getBytes() == null ? new Transaction(): transaction;
         this.hash = hash == null? Hash.NULL_HASH: hash;
         weightMagnitude = this.hash.trailingZeros();
     }
@@ -104,14 +104,14 @@ public class TransactionViewModel {
         if(trits.length == 8019) {
             this.trits = new byte[trits.length];
             System.arraycopy(trits, 0, this.trits, 0, trits.length);
-            transaction.bytes = Converter.allocateBytesForTrits(trits.length);
-            Converter.bytes(trits, 0, transaction.bytes, 0, trits.length);
+            transaction.setBytes(Converter.allocateBytesForTrits(trits.length)) ;
+            Converter.bytes(trits, 0, transaction.getBytes(), 0, trits.length);
 
             transaction.validity = 0;
             transaction.arrivalTime = 0;
         } else {
-            transaction.bytes = new byte[SIZE];
-            System.arraycopy(trits, 0, transaction.bytes, 0, SIZE);
+            transaction.setBytes(new byte[SIZE]) ;
+            System.arraycopy(trits, 0, transaction.getBytes(), 0, SIZE);
         }
 
         this.hash = hash;
@@ -329,7 +329,7 @@ public class TransactionViewModel {
      * the trits are generated from the transaction object and stored in the controller {@link #trits()} variable.
      */
     public synchronized byte[] trits() {
-        return (trits == null) ? (trits = trits(transaction.bytes)) : trits;
+        return (trits == null) ? (trits = trits(transaction.getBytes())) : trits;
     }
 
     /**
@@ -364,7 +364,7 @@ public class TransactionViewModel {
 
     /**
      * Fetches a list of all {@link Transaction} component and {@link Hash} identifier pairs from the stored metadata.
-     * The method then ensures that the {@link Transaction#bytes} are present before adding the {@link Transaction} and
+     * The method then ensures that the {@link Transaction bytes} are present before adding the {@link Transaction} and
      * {@link Hash} identifier to the already compiled list of {@link Transaction} components.
      *
      * @return A complete list of all {@link Transaction} component objects paired with their {@link Hash} identifiers
@@ -462,20 +462,20 @@ public class TransactionViewModel {
     }
 
     /**
-     * Gets the stored {@link Transaction#bytes}. If the {@link Transaction#bytes} are null, a new byte
+     * Gets the stored {@link Transaction bytes}. If the {@link Transaction bytes} are null, a new byte
      * array is created and stored from the {@link #trits}. If the {@link #trits} are also null, then a null byte array
      * is returned.
      *
-     * @return The stored {@link Transaction#bytes} array
+     * @return The stored {@link Transaction bytes} array
      */
     public byte[] getBytes() {
-        if(transaction.bytes == null || transaction.bytes.length != SIZE) {
-            transaction.bytes = new byte[SIZE];
+        if(transaction.getBytes() == null || transaction.getBytes().length != SIZE) {
+            transaction.setBytes(new byte[SIZE]) ;
             if(trits != null) {
-                Converter.bytes(trits(), 0, transaction.bytes, 0, trits().length);
+                Converter.bytes(trits(), 0, transaction.getBytes(), 0, trits().length);
             }
         }
-        return transaction.bytes;
+        return transaction.getBytes();
     }
 
     /**@return The transaction {@link Hash} identifier*/
@@ -514,10 +514,10 @@ public class TransactionViewModel {
      * @return The {@link AddressHash} identifier.
      */
     public Hash getAddressHash() {
-        if(transaction.address == null) {
-            transaction.address = HashFactory.ADDRESS.create(trits(), ADDRESS_TRINARY_OFFSET);
+        if(transaction.getAddress() == null) {
+            transaction.setAddress(HashFactory.ADDRESS.create(trits(), ADDRESS_TRINARY_OFFSET));
         }
-        return transaction.address;
+        return transaction.getAddress();
     }
 
     /**
@@ -541,10 +541,10 @@ public class TransactionViewModel {
      * @return The {@link BundleHash} identifier.
      */
     public Hash getBundleHash() {
-        if(transaction.bundle == null) {
-            transaction.bundle = HashFactory.BUNDLE.create(trits(), BUNDLE_TRINARY_OFFSET);
+        if(transaction.getBundle() == null) {
+            transaction.setBundle(HashFactory.BUNDLE.create(trits(), BUNDLE_TRINARY_OFFSET)) ;
         }
-        return transaction.bundle;
+        return transaction.getBundle();
     }
 
     /**
@@ -553,10 +553,10 @@ public class TransactionViewModel {
      * @return The trunk {@link TransactionHash} identifier.
      */
     public Hash getTrunkTransactionHash() {
-        if(transaction.trunk == null) {
-            transaction.trunk = HashFactory.TRANSACTION.create(trits(), TRUNK_TRANSACTION_TRINARY_OFFSET);
+        if(transaction.getTrunk() == null) {
+            transaction.setTrunk(HashFactory.TRANSACTION.create(trits(), TRUNK_TRANSACTION_TRINARY_OFFSET));
         }
-        return transaction.trunk;
+        return transaction.getTrunk();
     }
 
     /**
@@ -691,7 +691,7 @@ public class TransactionViewModel {
     /**
      * Converts the {@link Transaction#value}, {@link Transaction timestamp}, {@link Transaction#currentIndex} and
      * {@link Transaction lastIndex} from trits to long values and assigns them to the {@link TransactionViewModel}
-     * metadata. The method then determines if the {@link Transaction#bytes} are null or not. If so the
+     * metadata. The method then determines if the {@link Transaction bytes} are null or not. If so the
      * {@link Transaction#type} is set to {@link #PREFILLED_SLOT}, and if not it is set to {@link #FILLED_SLOT}.
      */
     public void setMetadata() {
@@ -700,7 +700,7 @@ public class TransactionViewModel {
         //if (transaction.timestamp > 1262304000000L ) transaction.timestamp /= 1000L;  // if > 01.01.2010 in milliseconds
         transaction.currentIndex = Converter.longValue(trits(), CURRENT_INDEX_TRINARY_OFFSET, CURRENT_INDEX_TRINARY_SIZE);
         transaction.setLastIndex(Converter.longValue(trits(), LAST_INDEX_TRINARY_OFFSET, LAST_INDEX_TRINARY_SIZE)) ;
-        transaction.type = transaction.bytes == null ? TransactionViewModel.PREFILLED_SLOT : TransactionViewModel.FILLED_SLOT;
+        transaction.type = transaction.getBytes() == null ? TransactionViewModel.PREFILLED_SLOT : TransactionViewModel.FILLED_SLOT;
     }
 
 

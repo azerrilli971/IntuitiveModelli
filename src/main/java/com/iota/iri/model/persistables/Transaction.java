@@ -21,11 +21,11 @@ public class Transaction implements Persistable {
      */
     public static final int IS_MILESTONE_BITMASK = 0b10;
 
-    public byte[] bytes;
+    private byte[] bytes;
 
-    public Hash address;
-    public Hash bundle;
-    public Hash trunk;
+    private Hash address;
+    private Hash bundle;
+    private Hash trunk;
     public Hash branch;
     public Hash obsoleteTag;
     public long value;
@@ -68,6 +68,12 @@ public class Transaction implements Persistable {
     //getter e setter per la variabile privata attachmentTimestamp
     public long getAttachmentTimestamp() {return attachmentTimestamp;}
     public void setAttachmentTimestamp (long newAttachmentTimestamp) {this.attachmentTimestamp = newAttachmentTimestamp;}
+    public Hash getAddress() {return address;}
+    public void setAddress(Hash newAddress) {this.address = newAddress;}
+    public Hash getBundle(){return bundle;}
+    public void setBundle( Hash newBundle) {this.bundle = newBundle;}
+    public Hash getTrunk(){return trunk;}
+    public void setTrunk (Hash newTrunk){this.trunk = newTrunk;}
 
     public boolean getParsed() {return parsed;}
 
@@ -93,7 +99,8 @@ public class Transaction implements Persistable {
         this.height = firstHeight;
     }
 
-
+    public byte[] getBytes() {return bytes;}
+    public void setBytes( byte[] newBytes){this.bytes = newBytes;}
 
 
     public byte[] bytes() {
