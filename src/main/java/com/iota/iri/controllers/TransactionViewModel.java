@@ -526,13 +526,13 @@ public class TransactionViewModel {
      * @return The {@link ObsoleteTagHash} identifier.
      */
     public Hash getObsoleteTagValue() {
-        if(transaction.obsoleteTag == null) {
+        if(transaction.getObsoleteTag() == null) {
             byte[] tagBytes = Converter.allocateBytesForTrits(OBSOLETE_TAG_TRINARY_SIZE);
             Converter.bytes(trits(), OBSOLETE_TAG_TRINARY_OFFSET, tagBytes, 0, OBSOLETE_TAG_TRINARY_SIZE);
 
-            transaction.obsoleteTag = HashFactory.OBSOLETETAG.create(tagBytes, 0, TAG_SIZE_IN_BYTES);
+            transaction.setObsoleteTag(HashFactory.OBSOLETETAG.create(tagBytes, 0, TAG_SIZE_IN_BYTES)) ;
         }
-        return transaction.obsoleteTag;
+        return transaction.getObsoleteTag();
     }
 
     /**
