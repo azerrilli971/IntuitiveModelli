@@ -613,9 +613,9 @@ public class TransactionViewModel {
         return transaction.attachmentTimestampUpperBound;
     }
 
-    /**@return The {@link Transaction#value}*/
+    /**@return The {@link Transaction value}*/
     public long value() {
-        return transaction.value;
+        return transaction.getValue();
     }
 
     /**
@@ -689,13 +689,13 @@ public class TransactionViewModel {
     }
 
     /**
-     * Converts the {@link Transaction#value}, {@link Transaction timestamp}, {@link Transaction#currentIndex} and
+     * Converts the {@link Transaction value}, {@link Transaction timestamp}, {@link Transaction#currentIndex} and
      * {@link Transaction lastIndex} from trits to long values and assigns them to the {@link TransactionViewModel}
      * metadata. The method then determines if the {@link Transaction bytes} are null or not. If so the
      * {@link Transaction#type} is set to {@link #PREFILLED_SLOT}, and if not it is set to {@link #FILLED_SLOT}.
      */
     public void setMetadata() {
-        transaction.value = Converter.longValue(trits(), VALUE_TRINARY_OFFSET, VALUE_USABLE_TRINARY_SIZE);
+        transaction.setValue(Converter.longValue(trits(), VALUE_TRINARY_OFFSET, VALUE_USABLE_TRINARY_SIZE)) ;
         transaction.setTimestamp(Converter.longValue(trits(), TIMESTAMP_TRINARY_OFFSET, TIMESTAMP_TRINARY_SIZE)) ;
         //if (transaction.timestamp > 1262304000000L ) transaction.timestamp /= 1000L;  // if > 01.01.2010 in milliseconds
         transaction.currentIndex = Converter.longValue(trits(), CURRENT_INDEX_TRINARY_OFFSET, CURRENT_INDEX_TRINARY_SIZE);

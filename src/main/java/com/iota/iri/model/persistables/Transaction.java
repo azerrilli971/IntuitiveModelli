@@ -28,7 +28,7 @@ public class Transaction implements Persistable {
     private Hash trunk;
     private Hash branch;
     private Hash obsoleteTag;
-    public long value;
+    private long value;
     public long currentIndex;
     private long lastIndex;
     private long timestamp;
@@ -78,6 +78,8 @@ public class Transaction implements Persistable {
     public void setBranch(Hash newBranch) {this.branch = newBranch;}
     public Hash getObsoleteTag(){return obsoleteTag;}
     public void setObsoleteTag( Hash newObsoleteTag) {this.obsoleteTag = newObsoleteTag;}
+    public long getValue() {return value;}
+    public void setValue(long newValue) {this.value = newValue;}
 
     public boolean getParsed() {return parsed;}
 
