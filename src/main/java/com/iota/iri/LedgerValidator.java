@@ -189,8 +189,8 @@ public class LedgerValidator {
         if(latestConsistentMilestone != null) {
             log.info("Loaded consistent milestone: #" + latestConsistentMilestone.index());
 
-            milestoneTracker.latestSolidSubtangleMilestone = latestConsistentMilestone.getHash();
-            milestoneTracker.latestSolidSubtangleMilestoneIndex = latestConsistentMilestone.index();
+            milestoneTracker.setLatestSolidSubtangleMilestone(latestConsistentMilestone.getHash());
+            milestoneTracker.setLatestSolidSubtangleMilestoneIndex(latestConsistentMilestone.index());
         }
     }
 

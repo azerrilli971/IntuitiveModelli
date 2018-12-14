@@ -688,7 +688,7 @@ public class API {
      * @return <tt>false</tt> if we received at least a solid milestone, otherwise <tt>true</tt>
      */
     public boolean invalidSubtangleStatus() {
-        return (instance.milestoneTracker.latestSolidSubtangleMilestoneIndex == milestoneStartIndex);
+        return (instance.milestoneTracker.getLatestSolidSubtangleMilestoneIndex() == milestoneStartIndex);
     }
     
     /**
@@ -958,9 +958,9 @@ public class API {
                 System.getProperty("java.version"), 
                 Runtime.getRuntime().maxMemory(),
                 Runtime.getRuntime().totalMemory(), 
-                instance.milestoneTracker.getLatestMilestone() , instance.milestoneTracker.latestMilestoneIndex,
-                instance.milestoneTracker.latestSolidSubtangleMilestone, 
-                instance.milestoneTracker.latestSolidSubtangleMilestoneIndex, 
+                instance.milestoneTracker.getLatestMilestone() , instance.milestoneTracker.getLatestMilestoneIndex(),
+                instance.milestoneTracker.getLatestSolidSbutangleMilestone(),
+                instance.milestoneTracker.getLatestSolidSubtangleMilestoneIndex(),
                 instance.milestoneTracker.milestoneStartIndex,
                 instance.node.howManyNeighbors(), 
                 instance.node.queuedTransactionsSize(),
@@ -1367,7 +1367,7 @@ public class API {
         final int index = instance.milestoneTracker.getLatestSnapshot().index();
         
         if (tips == null || tips.size() == 0) {
-            hashes = Collections.singletonList(instance.milestoneTracker.latestSolidSubtangleMilestone);
+            hashes = Collections.singletonList(instance.milestoneTracker.getLatestSolidSbutangleMilestone());
         } else {
             hashes = tips.stream()
                     .map(tip -> (HashFactory.TRANSACTION.create(tip)))

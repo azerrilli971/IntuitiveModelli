@@ -28,14 +28,14 @@ public class EntryPointSelectorImpl implements EntryPointSelector {
 
     @Override
     public Hash getEntryPoint(int depth) throws Exception {
-        int milestoneIndex = Math.max(milestoneTracker.latestSolidSubtangleMilestoneIndex - depth - 1,
+        int milestoneIndex = Math.max(milestoneTracker.getLatestSolidSubtangleMilestoneIndex() - depth - 1,
                 milestoneTracker.getMilestoneStartIndex());
         MilestoneViewModel milestoneViewModel = MilestoneViewModel.findClosestNextMilestone(tangle, milestoneIndex,
-                milestoneTracker.latestMilestoneIndex);
+                milestoneTracker.getLatestMilestoneIndex());
         if (milestoneViewModel != null && milestoneViewModel.getHash() != null) {
             return milestoneViewModel.getHash();
         }
 
-        return milestoneTracker.latestSolidSubtangleMilestone;
+        return milestoneTracker.getLatestSolidSbutangleMilestone();
     }
 }
