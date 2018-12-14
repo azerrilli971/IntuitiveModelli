@@ -64,7 +64,7 @@ public class GetNeighborsResponse extends AbstractResponse {
         private long numberOfAllTransactions,
                 numberOfNewTransactions,
                 numberOfInvalidTransactions;
-        public long numberOfStaleTransactions,
+        private long numberOfStaleTransactions,
                 numberOfSentTransactions;
         public String connectionType;
         private long numberOfRandomTransactionRequests;
