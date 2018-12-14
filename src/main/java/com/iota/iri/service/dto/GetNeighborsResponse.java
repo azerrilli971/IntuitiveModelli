@@ -62,13 +62,15 @@ public class GetNeighborsResponse extends AbstractResponse {
 
         private String address;
         public long numberOfAllTransactions,
-                numberOfRandomTransactionRequests,
                 numberOfNewTransactions,
                 numberOfInvalidTransactions,
                 numberOfStaleTransactions,
                 numberOfSentTransactions;
         public String connectionType;
+        private long numberOfRandomTransactionRequests;
 
+
+        public long getNumberOfRandomTransactionRequests() {return numberOfRandomTransactionRequests;}
         /**
          * The address of your neighbor
          * 
@@ -134,7 +136,7 @@ public class GetNeighborsResponse extends AbstractResponse {
             return connectionType;
         }
 
-        /**
+         /**
          * Creates a new Neighbor DTO from a Neighbor network instance
          * @param n the neighbor currently connected to this node
          * @return a new instance of {@link GetNeighborsResponse.Neighbor}
