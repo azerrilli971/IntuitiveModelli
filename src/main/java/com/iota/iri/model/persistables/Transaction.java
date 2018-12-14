@@ -30,7 +30,7 @@ public class Transaction implements Persistable {
     public Hash obsoleteTag;
     public long value;
     public long currentIndex;
-    public long lastIndex;
+    private long lastIndex;
     public long timestamp;
 
     public Hash tag;
@@ -55,6 +55,10 @@ public class Transaction implements Persistable {
     private long height = 0;
     public String sender = "";
     public int snapshot;
+
+    public long getLastIndex() {return lastIndex;}
+
+    public void setLastIndex( long newLastIndex) {this.lastIndex = newLastIndex;}
 
     public boolean getParsed() {return parsed;}
 

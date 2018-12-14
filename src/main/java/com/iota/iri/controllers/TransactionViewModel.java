@@ -669,9 +669,9 @@ public class TransactionViewModel {
         return nonce;
     }
 
-    /**@return The {@link Transaction#lastIndex} of the transaction bundle*/
+    /**@return The {@link Transaction lastIndex} of the transaction bundle*/
     public long lastIndex() {
-        return transaction.lastIndex;
+        return transaction.getLastIndex();
     }
 
     /**
@@ -690,7 +690,7 @@ public class TransactionViewModel {
 
     /**
      * Converts the {@link Transaction#value}, {@link Transaction#timestamp}, {@link Transaction#currentIndex} and
-     * {@link Transaction#lastIndex} from trits to long values and assigns them to the {@link TransactionViewModel}
+     * {@link Transaction lastIndex} from trits to long values and assigns them to the {@link TransactionViewModel}
      * metadata. The method then determines if the {@link Transaction#bytes} are null or not. If so the
      * {@link Transaction#type} is set to {@link #PREFILLED_SLOT}, and if not it is set to {@link #FILLED_SLOT}.
      */
@@ -699,7 +699,7 @@ public class TransactionViewModel {
         transaction.timestamp = Converter.longValue(trits(), TIMESTAMP_TRINARY_OFFSET, TIMESTAMP_TRINARY_SIZE);
         //if (transaction.timestamp > 1262304000000L ) transaction.timestamp /= 1000L;  // if > 01.01.2010 in milliseconds
         transaction.currentIndex = Converter.longValue(trits(), CURRENT_INDEX_TRINARY_OFFSET, CURRENT_INDEX_TRINARY_SIZE);
-        transaction.lastIndex = Converter.longValue(trits(), LAST_INDEX_TRINARY_OFFSET, LAST_INDEX_TRINARY_SIZE);
+        transaction.setLastIndex(Converter.longValue(trits(), LAST_INDEX_TRINARY_OFFSET, LAST_INDEX_TRINARY_SIZE)) ;
         transaction.type = transaction.bytes == null ? TransactionViewModel.PREFILLED_SLOT : TransactionViewModel.FILLED_SLOT;
     }
 
@@ -765,7 +765,7 @@ public class TransactionViewModel {
     }
 
     /**
-     * This method gets the {@link Transaction#.
+     * This method gets the {@link Transaction
      *
      * The {@link Transaction#} flag indicates if the {@link Transaction} is a coordinator issued milestone. It
      * allows us to differentiate the two types of transactions (normal transactions / milestones) very fast and
