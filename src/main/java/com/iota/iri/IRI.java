@@ -90,7 +90,7 @@ public class IRI {
 
         private static Iota iota;
         private static API api;
-        public static IXI ixi;
+        private static IXI ixi;
 
         /**
          * Starts IRI. Setup is as follows:
