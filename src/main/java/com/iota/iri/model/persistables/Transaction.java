@@ -50,7 +50,7 @@ public class Transaction implements Persistable {
     /**
      * This flag indicates if the transaction is a coordinator issued milestone.
      */
-    public boolean milestone = false;
+    private boolean milestone = false;
 
     public long height = 0;
     public String sender = "";
@@ -66,6 +66,12 @@ public class Transaction implements Persistable {
 
     public void setSolid(boolean firstSolid){
         this.solid = firstSolid;
+    }
+
+    public boolean getMilestone() {return milestone;}
+
+    public void setMilestone(boolean firstMilestone){
+        this.milestone = firstMilestone;
     }
 
 

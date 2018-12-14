@@ -740,10 +740,10 @@ public class TransactionViewModel {
     }
 
     /**
-     * This method sets the {@link Transaction#milestone} flag.
+     * This method sets the {@link Transaction#} flag.
      *
      * It gets automatically called by the {@link com.iota.iri.MilestoneTracker} and marks transactions that represent
-     * a milestone accordingly. It first checks if the {@link Transaction#milestone} flag has changed and if so, it
+     * a milestone accordingly. It first checks if the {@link Transaction#} flag has changed and if so, it
      * issues a database update.
      *
      * @param tangle Tangle instance which acts as a database interface
@@ -751,16 +751,16 @@ public class TransactionViewModel {
      * @throws Exception Thrown if there is an error while saving the changes to the database
      */
     public void isMilestone(Tangle tangle, final boolean isMilestone) throws Exception {
-        if (isMilestone != transaction.milestone) {
-            transaction.milestone = isMilestone;
+        if (isMilestone != transaction.getMilestone()) {
+            transaction.setMilestone(isMilestone);
             update(tangle, "milestone");
         }
     }
 
     /**
-     * This method gets the {@link Transaction#milestone}.
+     * This method gets the {@link Transaction#.
      *
-     * The {@link Transaction#milestone} flag indicates if the {@link Transaction} is a coordinator issued milestone. It
+     * The {@link Transaction#} flag indicates if the {@link Transaction} is a coordinator issued milestone. It
      * allows us to differentiate the two types of transactions (normal transactions / milestones) very fast and
      * efficiently without issuing further database queries or even full verifications of the signature. If it is set to
      * true one can for example use the snapshotIndex() method to retrieve the corresponding
@@ -769,7 +769,7 @@ public class TransactionViewModel {
      * @return true if the {@link Transaction} is a milestone and false otherwise
      */
     public boolean isMilestone() {
-        return transaction.milestone;
+        return transaction.getMilestone();
     }
 
     /**@return The current {@link Transaction#height}*/
