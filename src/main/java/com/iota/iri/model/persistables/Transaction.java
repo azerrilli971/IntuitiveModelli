@@ -50,9 +50,9 @@ public class Transaction implements Persistable {
     /**
      * This flag indicates if the transaction is a coordinator issued milestone.
      */
-    public boolean milestone = false;
+    private boolean milestone = false;
 
-    public long height = 0;
+    private long height = 0;
     public String sender = "";
     public int snapshot;
 
@@ -67,6 +67,20 @@ public class Transaction implements Persistable {
     public void setSolid(boolean firstSolid){
         this.solid = firstSolid;
     }
+
+    public boolean getMilestone() {return milestone;}
+
+    public void setMilestone(boolean firstMilestone){
+        this.milestone = firstMilestone;
+    }
+
+    public long getHeight() {return height;}
+
+    public void setHeight(long firstHeight){
+        this.height = firstHeight;
+    }
+
+
 
 
     public byte[] bytes() {
