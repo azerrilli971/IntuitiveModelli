@@ -89,7 +89,7 @@ public class IRI {
         private static final Logger log = LoggerFactory.getLogger(IRILauncher.class);
 
         private static Iota iota;
-        public static API api;
+        private static API api;
         public static IXI ixi;
 
         /**
