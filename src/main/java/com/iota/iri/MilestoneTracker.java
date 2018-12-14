@@ -61,12 +61,22 @@ public class MilestoneTracker {
 
     private LedgerValidator ledgerValidator;
     private Hash latestMilestone = Hash.NULL_HASH;
-    public Hash latestSolidSubtangleMilestone = latestMilestone;
+    private Hash latestSolidSubtangleMilestone = latestMilestone;
 
-    public int latestMilestoneIndex;
-    public int latestSolidSubtangleMilestoneIndex;
+    private int latestMilestoneIndex;
+    private int latestSolidSubtangleMilestoneIndex;
     public final int milestoneStartIndex;
 
+    public Hash getLatestSolidSbutangleMilestone() {return latestSolidSubtangleMilestone;}
+    public void setLatestSolidSubtangleMilestone(Hash newMilestone) {latestSolidSubtangleMilestone = newMilestone;}
+
+    public int getLatestMilestoneIndex() {return latestMilestoneIndex;}
+    public void setLatestMilestoneIndex(int newIndex) {latestMilestoneIndex = newIndex;}
+
+    public int getLatestSolidSubtangleMilestoneIndex() {return latestSolidSubtangleMilestoneIndex;}
+    public void setLatestSolidSubtangleMilestoneIndex(int newIndex) {latestSolidSubtangleMilestoneIndex = newIndex;}
+
+    
     private final Set<Hash> analyzedMilestoneCandidates = new HashSet<>();
 
     /**

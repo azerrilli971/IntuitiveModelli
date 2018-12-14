@@ -68,7 +68,7 @@ public class WalkValidatorImpl implements WalkValidator {
             log.debug("Validation failed: {} is not solid", transactionHash);
             return false;
         } else if (belowMaxDepth(transactionViewModel.getHash(),
-                milestoneTracker.latestSolidSubtangleMilestoneIndex - config.getMaxDepth())) {
+                milestoneTracker.getLatestSolidSubtangleMilestoneIndex() - config.getMaxDepth())) {
             log.debug("Validation failed: {} is below max depth", transactionHash);
             return false;
         } else if (!ledgerValidator.updateDiff(myApprovedHashes, myDiff, transactionViewModel.getHash())) {
