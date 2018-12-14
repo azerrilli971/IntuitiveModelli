@@ -9,8 +9,10 @@ import org.apache.commons.lang3.ArrayUtils;
 
 public class Milestone implements Persistable {
     public IntegerIndex index;
-    public Hash hash;
+    private Hash hash;
 
+    public Hash getHash() {return  hash;}
+    public void setHash (Hash newHash) {hash = newHash;}
     public byte[] bytes() {
         return ArrayUtils.addAll(index.bytes(), hash.bytes());
     }

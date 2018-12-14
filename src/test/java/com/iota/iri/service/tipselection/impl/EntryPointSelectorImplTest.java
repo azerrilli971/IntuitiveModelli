@@ -63,7 +63,7 @@ public class EntryPointSelectorImplTest {
     private void mockTangleBehavior(Hash milestoneModelHash) throws Exception {
         com.iota.iri.model.persistables.Milestone milestoneModel = new com.iota.iri.model.persistables.Milestone();
         milestoneModel.index = new IntegerIndex(1);
-        milestoneModel.hash = milestoneModelHash;
+        milestoneModel.setHash(milestoneModelHash);
         Mockito.when(milestoneTracker.getMilestoneStartIndex()).thenReturn(0);
         milestoneTracker.latestMilestoneIndex = 1;
         Mockito.when(tangle.load(com.iota.iri.model.persistables.Milestone.class, milestoneModel.index))
