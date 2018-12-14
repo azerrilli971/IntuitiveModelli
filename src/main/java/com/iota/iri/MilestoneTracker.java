@@ -57,7 +57,7 @@ public class MilestoneTracker {
     private final MessageQ messageQ;
     private final int numOfKeysInMilestone;
     private final boolean acceptAnyTestnetCoo;
-    public Snapshot latestSnapshot;
+    private Snapshot latestSnapshot;
 
     private LedgerValidator ledgerValidator;
     public Hash latestMilestone = Hash.NULL_HASH;
@@ -104,6 +104,8 @@ public class MilestoneTracker {
     public Status getStatus() {
         return this.status;
     }
+    public Snapshot getLatestSnapshot() {return this.latestSnapshot;}
+    public void setLatestSnapshot( Snapshot newSnapshot) {this.latestSnapshot = newSnapshot;}
 
     private boolean shuttingDown;
     private static final int RESCAN_INTERVAL = 5000;

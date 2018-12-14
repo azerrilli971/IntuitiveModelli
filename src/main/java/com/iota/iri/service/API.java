@@ -529,7 +529,7 @@ public class API {
      * If an address has a pending transaction, it is also marked as spend.
      * 
      * @param addresses List of addresses to check if they were ever spent from.
-     * @return {@link com.iota.iri.service.dto.wereAddressesSpentFrom}
+     * 
      **/
     private AbstractResponse wereAddressesSpentFromStatement(List<String> addresses) throws Exception {
         final List<Hash> addressesHash = addresses.stream()
@@ -662,7 +662,7 @@ public class API {
 
         // Transactions are valid, lets check ledger consistency
         if (state) {
-            instance.milestoneTracker.latestSnapshot.rwlock.readLock().lock();
+            instance.milestoneTracker.getLatestSnapshot().rwlock.readLock().lock();
             try {
                 WalkValidatorImpl walkValidator = new WalkValidatorImpl(instance.tangle, instance.ledgerValidator,
                         instance.milestoneTracker, instance.configuration);
@@ -674,7 +674,7 @@ public class API {
                     }
                 }
             } finally {
-                instance.milestoneTracker.latestSnapshot.rwlock.readLock().unlock();
+                instance.milestoneTracker.getLatestSnapshot().rwlock.readLock().unlock();
             }
         }
 
@@ -938,7 +938,7 @@ public class API {
     /**
       * Interrupts and completely aborts the <tt>attachToTangle</tt> process.
       *
-      * @return {@link com.iota.iri.service.dto.AbstractResponse.Emptyness}
+      *
       **/
     private AbstractResponse interruptAttachingToTangleStatement(){
         pearlDiver.cancel();
@@ -1363,8 +1363,8 @@ public class API {
         
         final List<Hash> hashes;
         final Map<Hash, Long> balances = new HashMap<>();
-        instance.milestoneTracker.latestSnapshot.rwlock.readLock().lock();
-        final int index = instance.milestoneTracker.latestSnapshot.index();
+        instance.milestoneTracker.getLatestSnapshot().rwlock.readLock().lock();
+        final int index = instance.milestoneTracker.getLatestSnapshot().index();
         
         if (tips == null || tips.size() == 0) {
             hashes = Collections.singletonList(instance.milestoneTracker.latestSolidSubtangleMilestone);
@@ -1377,7 +1377,7 @@ public class API {
         try {
             // Get the balance for each address at the last snapshot
             for (final Hash address : addressList) {
-                Long value = instance.milestoneTracker.latestSnapshot.getBalance(address);
+                Long value = instance.milestoneTracker.getLatestSnapshot().getBalance(address);
                 if (value == null) {
                     value = 0L;
                 }
@@ -1401,7 +1401,7 @@ public class API {
             // Update the found balance according to 'diffs' balance changes
             diff.forEach((key, value) -> balances.computeIfPresent(key, (hash, aLong) -> value + aLong));
         } finally {
-            instance.milestoneTracker.latestSnapshot.rwlock.readLock().unlock();
+            instance.milestoneTracker.getLatestSnapshot().rwlock.readLock().unlock();
         }
 
         final List<String> elements = addressList.stream()
