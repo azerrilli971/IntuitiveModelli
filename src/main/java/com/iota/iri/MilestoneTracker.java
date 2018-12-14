@@ -60,7 +60,7 @@ public class MilestoneTracker {
     private Snapshot latestSnapshot;
 
     private LedgerValidator ledgerValidator;
-    public Hash latestMilestone = Hash.NULL_HASH;
+    private Hash latestMilestone = Hash.NULL_HASH;
     public Hash latestSolidSubtangleMilestone = latestMilestone;
 
     public int latestMilestoneIndex;
@@ -106,6 +106,8 @@ public class MilestoneTracker {
     }
     public Snapshot getLatestSnapshot() {return this.latestSnapshot;}
     public void setLatestSnapshot( Snapshot newSnapshot) {this.latestSnapshot = newSnapshot;}
+    public Hash getLatestMilestone(){return this.latestMilestone ;}
+    public void setLatestMilestone( Hash newLatestMilestone ) {this.latestMilestone  = newLatestMilestone;}
 
     private boolean shuttingDown;
     private static final int RESCAN_INTERVAL = 5000;

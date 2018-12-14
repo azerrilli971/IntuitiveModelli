@@ -529,7 +529,7 @@ public class API {
      * If an address has a pending transaction, it is also marked as spend.
      * 
      * @param addresses List of addresses to check if they were ever spent from.
-     * 
+     *
      **/
     private AbstractResponse wereAddressesSpentFromStatement(List<String> addresses) throws Exception {
         final List<Hash> addressesHash = addresses.stream()
@@ -958,7 +958,7 @@ public class API {
                 System.getProperty("java.version"), 
                 Runtime.getRuntime().maxMemory(),
                 Runtime.getRuntime().totalMemory(), 
-                instance.milestoneTracker.latestMilestone, instance.milestoneTracker.latestMilestoneIndex,
+                instance.milestoneTracker.getLatestMilestone() , instance.milestoneTracker.latestMilestoneIndex,
                 instance.milestoneTracker.latestSolidSubtangleMilestone, 
                 instance.milestoneTracker.latestSolidSubtangleMilestoneIndex, 
                 instance.milestoneTracker.milestoneStartIndex,
