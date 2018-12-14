@@ -12,7 +12,12 @@ import java.util.Set;
  * Created by paul on 3/8/17 for iri.
  */
 public class Hashes implements Persistable {
-    public Set<Hash> set = new LinkedHashSet<>();
+    private Set<Hash> set = new LinkedHashSet<>();
+
+    public Set<Hash> getSet() {return set;}
+    public void setSet (Set newSet) {set = newSet;}
+
+
     private static final byte delimiter = ",".getBytes()[0];
 
     public byte[] bytes() {
