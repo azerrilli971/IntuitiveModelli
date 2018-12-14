@@ -52,7 +52,7 @@ public class MilestoneViewModel {
     public MilestoneViewModel(final int index, final Hash milestoneHash) {
         this.milestone = new Milestone();
         this.milestone.index = new IntegerIndex(index);
-        milestone.hash = milestoneHash;
+        milestone.setHash(milestoneHash);
     }
 
     /**
@@ -86,7 +86,7 @@ public class MilestoneViewModel {
      */
     public static boolean load(Tangle tangle, int index) throws Exception {
         Milestone milestone = (Milestone) tangle.load(Milestone.class, new IntegerIndex(index));
-        if(milestone != null && milestone.hash != null) {
+        if(milestone != null && milestone.getHash() != null) {
             milestones.put(index, new MilestoneViewModel(milestone));
             return true;
         }
@@ -220,7 +220,7 @@ public class MilestoneViewModel {
 
     /**@return  The {@link Hash} identifier of the {@link Milestone} object*/
     public Hash getHash() {
-        return milestone.hash;
+        return milestone.getHash();
     }
 
     /**@return The integer index of the {@link Milestone} object*/
