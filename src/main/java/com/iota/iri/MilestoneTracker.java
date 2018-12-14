@@ -319,7 +319,6 @@ public class MilestoneTracker {
             log.info(result.toString("UTF-8"));
 
         } catch (final Exception e) {
-            
             log.info("Got you" , e);
         }
     }
