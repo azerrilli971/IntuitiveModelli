@@ -553,10 +553,10 @@ public class TransactionViewModel {
      * @return The trunk {@link TransactionHash} identifier.
      */
     public Hash getTrunkTransactionHash() {
-        if(transaction.trunk == null) {
-            transaction.trunk = HashFactory.TRANSACTION.create(trits(), TRUNK_TRANSACTION_TRINARY_OFFSET);
+        if(transaction.getTrunk() == null) {
+            transaction.setTrunk(HashFactory.TRANSACTION.create(trits(), TRUNK_TRANSACTION_TRINARY_OFFSET));
         }
-        return transaction.trunk;
+        return transaction.getTrunk();
     }
 
     /**
