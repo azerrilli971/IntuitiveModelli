@@ -43,7 +43,8 @@ public class Transaction implements Persistable {
     public long arrivalTime = 0;
 
     //public boolean confirmed = false;
-    public boolean parsed = false;
+
+    private boolean parsed = false;
     public boolean solid = false;
 
     /**
@@ -54,6 +55,12 @@ public class Transaction implements Persistable {
     public long height = 0;
     public String sender = "";
     public int snapshot;
+
+    public boolean getParsed() {return parsed;}
+
+    public void setParsed(boolean firstParse) {
+        this.parsed = firstParse;
+    }
 
     public byte[] bytes() {
         return bytes;
