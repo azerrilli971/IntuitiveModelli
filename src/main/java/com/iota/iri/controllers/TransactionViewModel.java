@@ -698,24 +698,24 @@ public class TransactionViewModel {
 
 
     /**
-     * Updates the {@link Transaction#solid} value of the referenced {@link Transaction} object.
+     * Updates the {@link Transaction#} value of the referenced {@link Transaction} object.
      *
      * Used by the {@link com.iota.iri.TransactionValidator} to quickly set the solidity of a {@link Transaction} set.
      *
      * @param solid The solidity of the transaction in the database
-     * @return True if the {@link Transaction#solid} has been updated, False if not.
+     * @return True if the {@link Transaction#} has been updated, False if not.
      */
     public boolean updateSolid(boolean solid) throws Exception {
-        if(solid != transaction.solid) {
-            transaction.solid = solid;
+        if(solid != transaction.getSolid()) {
+            transaction.setSolid(solid);
             return true;
         }
         return false;
     }
 
-    /**@return True if {@link Transaction#solid} is True (exists in the database), False if not*/
+    /**@return True if {@link Transaction#} is True (exists in the database), False if not*/
     public boolean isSolid() {
-        return transaction.solid;
+        return transaction.getSolid();
     }
 
     /**@return The {@link Transaction#snapshot} index*/

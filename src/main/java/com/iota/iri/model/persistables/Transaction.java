@@ -45,7 +45,7 @@ public class Transaction implements Persistable {
     //public boolean confirmed = false;
 
     private boolean parsed = false;
-    public boolean solid = false;
+    private boolean solid = false;
 
     /**
      * This flag indicates if the transaction is a coordinator issued milestone.
@@ -61,6 +61,13 @@ public class Transaction implements Persistable {
     public void setParsed(boolean firstParse) {
         this.parsed = firstParse;
     }
+
+    public boolean getSolid(){return solid;}
+
+    public void setSolid(boolean firstSolid){
+        this.solid = firstSolid;
+    }
+
 
     public byte[] bytes() {
         return bytes;
