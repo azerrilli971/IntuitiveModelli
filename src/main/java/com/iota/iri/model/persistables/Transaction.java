@@ -31,9 +31,9 @@ public class Transaction implements Persistable {
     public long value;
     public long currentIndex;
     private long lastIndex;
-    public long timestamp;
+    private long timestamp;
 
-    public Hash tag;
+    private Hash tag;
     public long attachmentTimestamp;
     public long attachmentTimestampLowerBound;
     public long attachmentTimestampUpperBound;
@@ -56,9 +56,15 @@ public class Transaction implements Persistable {
     public String sender = "";
     public int snapshot;
 
+    //getter e setter per la variabile privata timestamp
+    public long getTimestamp() {return timestamp;}
+    public void setTimestamp( long newTimeStamp) {this.timestamp = newTimeStamp;}
+    //getter e setter per la variabile privata lastIndex
     public long getLastIndex() {return lastIndex;}
-
     public void setLastIndex( long newLastIndex) {this.lastIndex = newLastIndex;}
+    //getter e setter per la variabile privata tag
+    public Hash getTag() {return tag;}
+    public void setTag(Hash newTag){this.tag = newTag;}
 
     public boolean getParsed() {return parsed;}
 

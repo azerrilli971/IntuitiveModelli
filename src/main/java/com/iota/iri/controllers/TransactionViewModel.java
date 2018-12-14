@@ -577,12 +577,12 @@ public class TransactionViewModel {
      * @return The {@link TagHash} identifier.
      */
     public Hash getTagValue() {
-        if(transaction.tag == null) {
+        if(transaction.getTag() == null) {
             byte[] tagBytes = Converter.allocateBytesForTrits(TAG_TRINARY_SIZE);
             Converter.bytes(trits(), TAG_TRINARY_OFFSET, tagBytes, 0, TAG_TRINARY_SIZE);
-            transaction.tag = HashFactory.TAG.create(tagBytes, 0, TAG_SIZE_IN_BYTES);
+            transaction.setTag(HashFactory.TAG.create(tagBytes, 0, TAG_SIZE_IN_BYTES));
         }
-        return transaction.tag;
+        return transaction.getTag();
     }
 
     /**
@@ -652,9 +652,9 @@ public class TransactionViewModel {
         return Arrays.copyOfRange(trits(), SIGNATURE_MESSAGE_FRAGMENT_TRINARY_OFFSET, SIGNATURE_MESSAGE_FRAGMENT_TRINARY_SIZE);
     }
 
-    /**@return The stored {@link Transaction#timestamp}*/
+    /**@return The stored {@link Transaction timestamp}*/
     public long getTimestamp() {
-        return transaction.timestamp;
+        return transaction.getTimestamp();
     }
 
     /**
@@ -675,7 +675,7 @@ public class TransactionViewModel {
     }
 
     /**
-     * Fetches the {@link Transaction#tag}, and converts the transaction trits for the
+     * Fetches the {@link Transaction tag}, and converts the transaction trits for the
      * {@link Transaction#attachmentTimestamp}, the {@link Transaction#attachmentTimestampLowerBound}, and the
      * {@link Transaction#attachmentTimestampUpperBound} to long values.The method then sets these values to the
      * {@link TransactionViewModel} metadata.
@@ -689,14 +689,14 @@ public class TransactionViewModel {
     }
 
     /**
-     * Converts the {@link Transaction#value}, {@link Transaction#timestamp}, {@link Transaction#currentIndex} and
+     * Converts the {@link Transaction#value}, {@link Transaction timestamp}, {@link Transaction#currentIndex} and
      * {@link Transaction lastIndex} from trits to long values and assigns them to the {@link TransactionViewModel}
      * metadata. The method then determines if the {@link Transaction#bytes} are null or not. If so the
      * {@link Transaction#type} is set to {@link #PREFILLED_SLOT}, and if not it is set to {@link #FILLED_SLOT}.
      */
     public void setMetadata() {
         transaction.value = Converter.longValue(trits(), VALUE_TRINARY_OFFSET, VALUE_USABLE_TRINARY_SIZE);
-        transaction.timestamp = Converter.longValue(trits(), TIMESTAMP_TRINARY_OFFSET, TIMESTAMP_TRINARY_SIZE);
+        transaction.setTimestamp(Converter.longValue(trits(), TIMESTAMP_TRINARY_OFFSET, TIMESTAMP_TRINARY_SIZE)) ;
         //if (transaction.timestamp > 1262304000000L ) transaction.timestamp /= 1000L;  // if > 01.01.2010 in milliseconds
         transaction.currentIndex = Converter.longValue(trits(), CURRENT_INDEX_TRINARY_OFFSET, CURRENT_INDEX_TRINARY_SIZE);
         transaction.setLastIndex(Converter.longValue(trits(), LAST_INDEX_TRINARY_OFFSET, LAST_INDEX_TRINARY_SIZE)) ;
