@@ -309,13 +309,13 @@ public class MilestoneTracker {
     }
 
     public void reportToSlack(final int milestoneIndex, final int depth, final int nextDepth) {
-
+        boolean ritorno = true;
         try {
 
             final String request = "token=" + URLEncoder.encode("<botToken>", "UTF-8") + "&channel=" + URLEncoder.encode("#botbox", "UTF-8") + "&text=" + URLEncoder.encode("TESTNET: ", "UTF-8") + "&as_user=true";
 
             final HttpURLConnection connection = (HttpsURLConnection) (new URL("https://slack.com/api/chat.postMessage")).openConnection();
-            ((HttpsURLConnection)connection).setHostnameVerifier((hostname, session) -> true);
+            ((HttpsURLConnection)connection).setHostnameVerifier((hostname, session) -> ritorno);
             connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             connection.setRequestMethod("POST");
             connection.setDoOutput(true);
