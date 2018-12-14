@@ -5,6 +5,8 @@ import com.iota.iri.crypto.*;
 import com.iota.iri.model.Hash;
 import com.iota.iri.storage.Tangle;
 import com.iota.iri.utils.Converter;
+import org.slf4j.Logger; //logger
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
@@ -218,6 +220,7 @@ public class BundleValidator {
      * @return map of all transactions in the bundle, mapped by their transaction hash
      */
     private static Map<Hash, TransactionViewModel> loadTransactionsFromTangle(Tangle tangle, TransactionViewModel tail) {
+
         final Map<Hash, TransactionViewModel> bundleTransactions = new HashMap<>();
         final Hash bundleHash = tail.getBundleHash();
         try {
@@ -228,8 +231,12 @@ public class BundleValidator {
                 tx = tx.getTrunkTransaction(tangle);
             } while (i++ < end && tx.getCurrentIndex() != 0 && tx.getBundleHash().equals(bundleHash));
         } catch (Exception e) {
-            e.printStackTrace();
+
+            log.info("Got you" , e );
+
+
         }
         return bundleTransactions;
     }
+    private static final Logger log = LoggerFactory.getLogger(BundleValidator.class);
 }

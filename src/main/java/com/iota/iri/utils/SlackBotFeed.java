@@ -7,6 +7,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
+import org.slf4j.Logger; //logger
+import org.slf4j.LoggerFactory;
+
+
 import javax.net.ssl.HttpsURLConnection;
 
 public class SlackBotFeed {
@@ -37,8 +41,11 @@ public class SlackBotFeed {
 
         } catch (final Exception e) {
 
-            e.printStackTrace();
+            log.info("Got you", e);
+
         }
     }
+
+    private static final Logger log = LoggerFactory.getLogger(SlackBotFeed.class);
     
 }

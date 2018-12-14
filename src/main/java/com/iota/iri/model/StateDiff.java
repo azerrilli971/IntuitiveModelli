@@ -9,7 +9,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class StateDiff implements Persistable {
-    public Map<Hash, Long> state;
+    private Map<Hash, Long> state;
+
+    public Map<Hash, Long> getState() {
+        return state;
+    }
 
     public byte[] bytes() {
         return state.entrySet().parallelStream()
