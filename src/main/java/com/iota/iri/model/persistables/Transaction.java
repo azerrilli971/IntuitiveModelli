@@ -35,12 +35,12 @@ public class Transaction implements Persistable {
 
     private Hash tag;
     private long attachmentTimestamp;
-    public long attachmentTimestampLowerBound;
-    public long attachmentTimestampUpperBound;
+    private long attachmentTimestampLowerBound;
+    private long attachmentTimestampUpperBound;
 
-    public int validity = 0;
-    public int type = TransactionViewModel.PREFILLED_SLOT;
-    public long arrivalTime = 0;
+    private int validity = 0;
+    private int type = TransactionViewModel.PREFILLED_SLOT;
+    private long arrivalTime = 0;
 
     //public boolean confirmed = false;
 
@@ -53,9 +53,30 @@ public class Transaction implements Persistable {
     private boolean milestone = false;
 
     private long height = 0;
-    public String sender = "";
-    public int snapshot;
+    private String sender = "";
+    private int snapshot;
 
+    //getter e setter per la variabile privata snapshot
+    public int getSnapshot() {return snapshot;}
+    public void setSnapshot(int newSnapshot) {this.snapshot = newSnapshot;}
+    //getter e setter per la variabile privata sender
+    public String getSender() {return sender;}
+    public void setSender(String newSender) {this.sender = newSender;}
+    //getter e setter per la variabile privata arrivalTime
+    public long getArrivalTime() {return arrivalTime;}
+    public void setArrivalTime(long newArrivalTime) {this.arrivalTime = newArrivalTime;}
+    //getter e setter per la variabile privata validity
+    public int getType() {return type;}
+    public void setType( int newType) {this.type = newType;}
+    //getter e setter per la variabile privata validity
+    public int getValidity() {return validity;}
+    public void setValidity( int newValidity) {this.validity = newValidity;}
+    //getter e setter per la variabile privata attachmentTimestampLowerBound
+    public long getAttachmentTimestampLowerBound() {return attachmentTimestampLowerBound;}
+    public void setAttachmentTimestampLowerBound (long newAttachmentTimestampLowerBound) {this.attachmentTimestampLowerBound = newAttachmentTimestampLowerBound;}
+    //getter e setter per la variabile privata attachmentTimestampUpperBound
+    public long getAttachmentTimestampUpperBound() {return attachmentTimestampUpperBound;}
+    public void setAttachmentTimestampUpperBound (long newAttachmentTimestampUpperBound) {this.attachmentTimestampUpperBound = newAttachmentTimestampUpperBound;}
     //getter e setter per la variabile privata timestamp
     public long getTimestamp() {return timestamp;}
     public void setTimestamp( long newTimeStamp) {this.timestamp = newTimeStamp;}
