@@ -226,7 +226,7 @@ public class SnapshotServiceImpl implements SnapshotService {
         try {
             MilestoneViewModel seenMilestone = targetMilestone;
             while ((seenMilestone = MilestoneViewModel.findClosestNextMilestone(tangle, seenMilestone.index(),
-                    milestoneTracker.latestMilestoneIndex)) != null) {
+                    milestoneTracker.getLatestMilestoneIndex())) != null) {
 
                 seenMilestones.put(seenMilestone.getHash(), seenMilestone.index());
 

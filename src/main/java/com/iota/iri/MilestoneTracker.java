@@ -57,16 +57,26 @@ public class MilestoneTracker {
     private final MessageQ messageQ;
     private final int numOfKeysInMilestone;
     private final boolean acceptAnyTestnetCoo;
-    public Snapshot latestSnapshot;
+    private Snapshot latestSnapshot;
 
     private LedgerValidator ledgerValidator;
-    public Hash latestMilestone = Hash.NULL_HASH;
-    public Hash latestSolidSubtangleMilestone = latestMilestone;
+    private Hash latestMilestone = Hash.NULL_HASH;
+    private Hash latestSolidSubtangleMilestone = latestMilestone;
 
-    public int latestMilestoneIndex;
-    public int latestSolidSubtangleMilestoneIndex;
+    private int latestMilestoneIndex;
+    private int latestSolidSubtangleMilestoneIndex;
     public final int milestoneStartIndex;
 
+    public Hash getLatestSolidSbutangleMilestone() {return latestSolidSubtangleMilestone;}
+    public void setLatestSolidSubtangleMilestone(Hash newMilestone) {latestSolidSubtangleMilestone = newMilestone;}
+
+    public int getLatestMilestoneIndex() {return latestMilestoneIndex;}
+    public void setLatestMilestoneIndex(int newIndex) {latestMilestoneIndex = newIndex;}
+
+    public int getLatestSolidSubtangleMilestoneIndex() {return latestSolidSubtangleMilestoneIndex;}
+    public void setLatestSolidSubtangleMilestoneIndex(int newIndex) {latestSolidSubtangleMilestoneIndex = newIndex;}
+
+    
     private final Set<Hash> analyzedMilestoneCandidates = new HashSet<>();
 
     /**
@@ -104,6 +114,10 @@ public class MilestoneTracker {
     public Status getStatus() {
         return this.status;
     }
+    public Snapshot getLatestSnapshot() {return this.latestSnapshot;}
+    public void setLatestSnapshot( Snapshot newSnapshot) {this.latestSnapshot = newSnapshot;}
+    public Hash getLatestMilestone(){return this.latestMilestone ;}
+    public void setLatestMilestone( Hash newLatestMilestone ) {this.latestMilestone  = newLatestMilestone;}
 
     private boolean shuttingDown;
     private static final int RESCAN_INTERVAL = 5000;
@@ -295,13 +309,13 @@ public class MilestoneTracker {
     }
 
     public void reportToSlack(final int milestoneIndex, final int depth, final int nextDepth) {
-
+        boolean ritorno = true;
         try {
 
             final String request = "token=" + URLEncoder.encode("<botToken>", "UTF-8") + "&channel=" + URLEncoder.encode("#botbox", "UTF-8") + "&text=" + URLEncoder.encode("TESTNET: ", "UTF-8") + "&as_user=true";
 
             final HttpURLConnection connection = (HttpsURLConnection) (new URL("https://slack.com/api/chat.postMessage")).openConnection();
-            ((HttpsURLConnection)connection).setHostnameVerifier((hostname, session) -> true);
+            ((HttpsURLConnection)connection).setHostnameVerifier((hostname, session) -> ritorno);
             connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             connection.setRequestMethod("POST");
             connection.setDoOutput(true);

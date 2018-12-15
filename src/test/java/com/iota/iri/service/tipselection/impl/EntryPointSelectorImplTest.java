@@ -56,8 +56,8 @@ public class EntryPointSelectorImplTest {
 
 
     private void mockMilestoneTrackerBehavior(int latestSolidSubtangleMilestoneIndex, Hash latestSolidSubtangleMilestone) {
-        milestoneTracker.latestSolidSubtangleMilestoneIndex = latestSolidSubtangleMilestoneIndex;
-        milestoneTracker.latestSolidSubtangleMilestone = latestSolidSubtangleMilestone;
+        milestoneTracker.setLatestSolidSubtangleMilestoneIndex(latestSolidSubtangleMilestoneIndex);
+        milestoneTracker.setLatestSolidSubtangleMilestone(latestSolidSubtangleMilestone);
     }
 
     private void mockTangleBehavior(Hash milestoneModelHash) throws Exception {
@@ -65,7 +65,7 @@ public class EntryPointSelectorImplTest {
         milestoneModel.setIndex(new IntegerIndex(1));
         milestoneModel.setHash(milestoneModelHash);
         Mockito.when(milestoneTracker.getMilestoneStartIndex()).thenReturn(0);
-        milestoneTracker.latestMilestoneIndex = 1;
+        milestoneTracker.setLatestMilestoneIndex(1);
         Mockito.when(tangle.load(com.iota.iri.model.persistables.Milestone.class, milestoneModel.getIndex()))
                 .thenReturn(milestoneModel);
     }

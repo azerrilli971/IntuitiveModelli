@@ -276,7 +276,7 @@ public class Node {
      * a {@link TransactionViewModel} object from it and perform some basic validation
      * on the received transaction via  {@link TransactionValidator#runValidation}
      * 
-     * The packet is then added to  {@link receiveQueue} for further processing. 
+     * The packet is then added to   for further processing.
      */
      
     public void preProcessReceivedData(byte[] receivedData, SocketAddress senderAddress, String uriScheme) {
@@ -403,7 +403,7 @@ public class Node {
     }
     
     /**
-     * Adds incoming transactions to the {@link receiveQueue} to be processed later.
+     * Adds incoming transactions to the  to be processed later.
      */
     public void addReceivedDataToReceiveQueue(TransactionViewModel receivedTransactionViewModel, Neighbor neighbor) {
         receiveQueue.add(new ImmutablePair<>(receivedTransactionViewModel, neighbor));
@@ -436,7 +436,7 @@ public class Node {
 
     /**
      * Picks up a transaction hash and neighbor pair from reply queue. Calls 
-     * {@link replyToRequest} on the pair. 
+     *  on the pair.
      */
     public void replyToRequestFromQueue() {
         final Pair<Hash, Neighbor> receivedData = replyQueue.pollFirst();
@@ -546,7 +546,7 @@ public class Node {
     }
 
     private Hash getRandomTipPointer() throws Exception {
-        Hash tip = rnd.nextDouble() < configuration.getpSendMilestone() ? milestoneTracker.latestMilestone : tipsViewModel.getRandomSolidTipHash();
+        Hash tip = rnd.nextDouble() < configuration.getpSendMilestone() ? milestoneTracker.getLatestMilestone(): tipsViewModel.getRandomSolidTipHash();
         return tip == null ? Hash.NULL_HASH : tip;
     }
 
@@ -634,7 +634,7 @@ public class Node {
             while (!shuttingDown.get()) {
 
                 try {
-                    final TransactionViewModel transactionViewModel = TransactionViewModel.fromHash(tangle, milestoneTracker.latestMilestone);
+                    final TransactionViewModel transactionViewModel = TransactionViewModel.fromHash(tangle, milestoneTracker.getLatestMilestone());
                     System.arraycopy(transactionViewModel.getBytes(), 0, tipRequestingPacket.getData(), 0, TransactionViewModel.SIZE);
                     System.arraycopy(transactionViewModel.getHash().bytes(), 0, tipRequestingPacket.getData(), TransactionViewModel.SIZE,
                            reqHashSize);
