@@ -26,12 +26,14 @@ public abstract class BaseIotaConfig implements IotaConfig {
     //API
     protected int port = Defaults.API_PORT;
     protected String apiHost = Defaults.API_HOST;
-    protected List<String> remoteLimitApi = Defaults.REMOTE_LIMIT_API;
+    protected List<String> remoteLimitApi = getLimit();
     protected int maxFindTransactions = Defaults.MAX_FIND_TRANSACTIONS;
     protected int maxRequestsList = Defaults.MAX_REQUESTS_LIST;
     protected int maxGetTrytes = Defaults.MAX_GET_TRYTES;
     protected int maxBodyLength = Defaults.MAX_BODY_LENGTH;
     protected String remoteAuth = Defaults.REMOTE_AUTH;
+    private List<String>  immutableApi = IotaUtils.createImmutableList("addNeighbors", "getNeighbors", "removeNeighbors", "attachToTangle", "interruptAttachingToTangle");
+    public List<String> getLimit() {return immutableApi;}
     //We don't have a REMOTE config but we have a remote flag. We must add a field for JCommander
     private boolean remote = true;
 
@@ -694,7 +696,6 @@ public abstract class BaseIotaConfig implements IotaConfig {
         //API
         int API_PORT = 14265;
         String API_HOST = "localhost";
-        List<String> REMOTE_LIMIT_API = IotaUtils.createImmutableList("addNeighbors", "getNeighbors", "removeNeighbors", "attachToTangle", "interruptAttachingToTangle");
         int MAX_FIND_TRANSACTIONS = 100_000;
         int MAX_REQUESTS_LIST = 1_000;
         int MAX_GET_TRYTES = 10_000;
