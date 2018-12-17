@@ -126,7 +126,7 @@ public class Node {
      * Intialize the operations by spawning all the worker threads.
      * 
      */
-    public void init() throws Exception {
+    public void init() {
 
         //TODO ask Alon
         sendLimit = (long) ((configuration.getSendLimit() * 1000000) / (configuration.getTransactionPacketSize() * 8));
@@ -352,7 +352,8 @@ public class Node {
                 //recentSeenBytes statistics
 
                 if (log.isDebugEnabled()) {
-                    long hitCount, missCount;
+                    long hitCount;
+                    long missCount;
                     if (cached) {
                         hitCount = recentSeenBytesHitCount.incrementAndGet();
                         missCount = recentSeenBytesMissCount.get();
@@ -545,7 +546,7 @@ public class Node {
 
     }
 
-    private Hash getRandomTipPointer() throws Exception {
+    private Hash getRandomTipPointer() {
         Hash tip = rnd.nextDouble() < configuration.getpSendMilestone() ? milestoneTracker.getLatestMilestone(): tipsViewModel.getRandomSolidTipHash();
         return tip == null ? Hash.NULL_HASH : tip;
     }
