@@ -98,10 +98,10 @@ public class API {
 
     private Pattern trytesPattern = Pattern.compile("[9A-Z]*");
 
-    private final static int HASH_SIZE = 81;
-    private final static int TRYTES_SIZE = 2673;
+    private static final int HASH_SIZE = 81;
+    private static final  int TRYTES_SIZE = 2673;
 
-    private final static long MAX_TIMESTAMP_VALUE = (long) (Math.pow(3, 27) - 1) / 2; // max positive 27-trits value
+    private static final long MAX_TIMESTAMP_VALUE = (long) (Math.pow(3, 27) - 1) / 2; // max positive 27-trits value
 
     private final int maxFindTxs;
     private final int maxRequestList;
@@ -109,13 +109,13 @@ public class API {
     private final int maxBodyLength;
     private final boolean testNet;
 
-    private final static String overMaxErrorMessage = "Could not complete request";
-    private final static String invalidParams = "Invalid parameters";
+    private static final  String overMaxErrorMessage = "Could not complete request";
+    private static final String invalidParams = "Invalid parameters";
 
     private ConcurrentHashMap<Hash, Boolean> previousEpochsSpentAddresses;
 
-    private final static char ZERO_LENGTH_ALLOWED = 'Y';
-    private final static char ZERO_LENGTH_NOT_ALLOWED = 'N';
+    private static final char ZERO_LENGTH_ALLOWED = 'Y';
+    private static final char ZERO_LENGTH_NOT_ALLOWED = 'N';
     private Iota instance;
     
     private final String[] features;
@@ -257,7 +257,7 @@ public class API {
      *                      This will be used to set the response duration in {@link AbstractResponse#setDuration(Integer)}
      * @throws IOException When connection to client has been lost - Currently being caught.
      */
-    private void sendResponse(HttpServerExchange exchange, AbstractResponse res, long beginningTime) throws IOException {
+    private void sendResponse(HttpServerExchange exchange, AbstractResponse res, long beginningTime) {
         res.setDuration((int) (System.currentTimeMillis() - beginningTime));
         final String response = gson.toJson(res);
 
@@ -364,7 +364,7 @@ public class API {
                                             Currently caught and turned into a {@link ExceptionResponse}.
      */
     private AbstractResponse process(final String requestString, InetSocketAddress sourceAddress) 
-            throws UnsupportedEncodingException {
+            {
 
         try {
             // Request JSON data into map
@@ -570,7 +570,7 @@ public class API {
                 
                 // Transaction is pending
                 Hash tail = findTail(hash);
-                if (tail != null && BundleValidator.validate(instance.tangle, tail).size() != 0) {
+                if (BundleValidator.validate(instance.tangle, tail).isEmpty()) {
                     return true;
                 }
             }
@@ -653,7 +653,7 @@ public class API {
                 state = false;
                 info = "tails are not solid (missing a referenced tx): " + transaction;
                 break;
-            } else if (BundleValidator.validate(instance.tangle, txVM.getHash()).size() == 0) {
+            } else if (BundleValidator.validate(instance.tangle, txVM.getHash()).isEmpty()) {
                 state = false;
                 info = "tails are not consistent (bundle is invalid): " + transaction;
                 break;
@@ -898,7 +898,7 @@ public class API {
       *
       * @return {@link com.iota.iri.service.dto.GetTipsResponse}
       **/
-    private synchronized AbstractResponse getTipsStatement() throws Exception {
+    private synchronized AbstractResponse getTipsStatement() {
         return GetTipsResponse.create(instance.tipsViewModel.getTips()
                 .stream()
                 .map(Hash::toString)
@@ -1366,7 +1366,7 @@ public class API {
         instance.milestoneTracker.getLatestSnapshot().rwlock.readLock().lock();
         final int index = instance.milestoneTracker.getLatestSnapshot().index();
         
-        if (tips == null || tips.size() == 0) {
+        if (tips.isEmpty()) {
             hashes = Collections.singletonList(instance.milestoneTracker.getLatestSolidSbutangleMilestone());
         } else {
             hashes = tips.stream()
