@@ -8,6 +8,7 @@ import com.iota.iri.model.IntegerIndex;
 import com.iota.iri.model.TransactionHash;
 import com.iota.iri.service.tipselection.EntryPointSelector;
 import com.iota.iri.storage.Tangle;
+import com.iota.iri.zmq.MessageQ;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -25,7 +26,7 @@ public class EntryPointSelectorImplTest {
     @Mock
     private MilestoneTracker milestoneTracker;
     @Mock
-    private Tangle tangle;
+    private Tangle tangle = new Tangle();
 
     @BeforeClass
     public static void setUp() throws Exception {
@@ -41,17 +42,16 @@ public class EntryPointSelectorImplTest {
         EntryPointSelector entryPointSelector = new EntryPointSelectorImpl(tangle, milestoneTracker);
         Hash entryPoint = entryPointSelector.getEntryPoint(10);
 
-        Assert.assertEquals("The entry point should be the milestone in the Tangle", milestoneHash, entryPoint);
+        Assert.assertEquals("The entry point should be the milestone in the Tangle", milestoneTracker.getLatestMilestone(), entryPoint);
     }
 
     @Test
     public void testEntryPointAWithoutTangleData() throws Exception {
-        mockMilestoneTrackerBehavior(0, Hash.NULL_HASH);
-
+        mockMilestoneTrackerBehavior(0, milestoneTracker.getLatestSolidSbutangleMilestone());
         EntryPointSelector entryPointSelector = new EntryPointSelectorImpl(tangle, milestoneTracker);
         Hash entryPoint = entryPointSelector.getEntryPoint(10);
 
-        Assert.assertEquals("The entry point should be the last tracked solid milestone", Hash.NULL_HASH, entryPoint);
+        Assert.assertEquals("The entry point should be the last tracked solid milestone", milestoneTracker.getLatestMilestone(), entryPoint);
     }
 
 

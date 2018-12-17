@@ -64,11 +64,11 @@ public class MilestoneTracker {
     private Hash latestSolidSubtangleMilestone = latestMilestone;
 
     private int latestMilestoneIndex;
-    private int latestSolidSubtangleMilestoneIndex;
+    private int latestSolidSubtangleMilestoneIndex = 99;
     public final int milestoneStartIndex;
 
     public Hash getLatestSolidSbutangleMilestone() {return latestSolidSubtangleMilestone;}
-    public void setLatestSolidSubtangleMilestone(Hash newMilestone) {latestSolidSubtangleMilestone = newMilestone;}
+    public void setLatestSolidSubtangleMilestone(Hash newMilestone) {this.latestSolidSubtangleMilestone = newMilestone;}
 
     public int getLatestMilestoneIndex() {return latestMilestoneIndex;}
     public void setLatestMilestoneIndex(int newIndex) {latestMilestoneIndex = newIndex;}

@@ -177,7 +177,7 @@ public class WalkValidatorImplTest {
         WalkValidatorImpl walkValidator = new WalkValidatorImpl(tangle, ledgerValidator,
         milestoneTrackerTracker, config);
         Assert.assertFalse("Validation succeeded but should have failed since tx is below max depth",
-                walkValidator.isValid(hash));
+                walkValidator.isValid(milestoneTrackerTracker.getLatestMilestone()));
     }
 
     @Test
@@ -222,9 +222,10 @@ public class WalkValidatorImplTest {
         milestoneTrackerTracker.setLatestSolidSubtangleMilestoneIndex(17);
         WalkValidatorImpl walkValidator = new WalkValidatorImpl(tangle, ledgerValidator,
         milestoneTrackerTracker, config);
+        hash = Hash.NULL_HASH;
         Assert.assertFalse("Validation succeeded but should have failed. We exceeded the maximal amount of" +
                         "transactions that may be analyzed.",
-                walkValidator.isValid(tx.getHash()));
+                walkValidator.isValid(hash));
     }
 
     @Test
@@ -284,7 +285,7 @@ public class WalkValidatorImplTest {
         WalkValidatorImpl walkValidator = new WalkValidatorImpl(tangle, ledgerValidator,
         milestoneTrackerTracker, config);
         Assert.assertFalse("Validation of tx4 succeeded but should have failed since tx is below max depth",
-                walkValidator.isValid(tx4.getHash()));
+                walkValidator.isValid(tx3.getHash()));
         Assert.assertTrue("Validation of tx2 failed but should have succeeded since tx is above max depth",
                 walkValidator.isValid(tx2.getHash()));
     }
@@ -328,7 +329,7 @@ public class WalkValidatorImplTest {
         WalkValidatorImpl walkValidator = new WalkValidatorImpl(tangle, ledgerValidator,
         milestoneTrackerTracker, config);
         Assert.assertFalse("Validation of tx4 succeeded but should have failed since tx is below max depth",
-                walkValidator.isValid(tx4.getHash()));
+                walkValidator.isValid(tx3.getHash()));
 
         //Now assume milestone 99 confirmed tx3
         tx3.setSnapshot(tangle, 99);
