@@ -62,7 +62,7 @@ public class UDPReceiver {
 
             log.info("Spawning Receiver Thread");
 
-            
+
             final byte[] requestedTransaction = new byte[Hash.SIZE_IN_BYTES];
 
             int processed = 0, dropped = 0;
