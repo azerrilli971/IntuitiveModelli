@@ -17,7 +17,7 @@ class ReplicatorSinkProcessor implements Runnable {
 
     private final TCPNeighbor neighbor;
     
-    public final static int CRC32_BYTES = 16;
+    public static final int CRC32_BYTES = 16;
     private final ReplicatorSinkPool replicatorSinkPool;
     private final int port;
     private int transactionPacketSize;
@@ -93,8 +93,9 @@ class ReplicatorSinkProcessor implements Runnable {
                                                 CRC32 crc32 = new CRC32();                                        
                                                 crc32.update(message.array());
                                                 String crc32String = Long.toHexString(crc32.getValue());
+                                                String tocon = "0";
                                                 while (crc32String.length() < CRC32_BYTES) {
-                                                    crc32String = "0"+crc32String;
+                                                    crc32String = tocon.concat(crc32String);
                                                 }
                                                 out.write(message.array());
                                                 out.write(crc32String.getBytes());

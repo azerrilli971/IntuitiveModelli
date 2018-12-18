@@ -32,7 +32,7 @@ public class ReplicatorSinkPool  implements Runnable {
 
 
 
-    public final static int PORT_BYTES = 10;
+    public static final int PORT_BYTES = 10;
 
     public ReplicatorSinkPool(Node node, int port, int transactionPacketSize) {
         this.node = node;
