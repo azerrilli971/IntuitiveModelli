@@ -824,7 +824,8 @@ public class TransactionViewModel {
      * @throws Exception
      */
     public void updateHeights(Tangle tangle) throws Exception {
-        TransactionViewModel transactionVM = this, trunk = this.getTrunkTransaction(tangle);
+        TransactionViewModel transactionVM = this;
+        TransactionViewModel trunk = this.getTrunkTransaction(tangle);
         Stack<Hash> transactionViewModels = new Stack<>();
         transactionViewModels.push(transactionVM.getHash());
         while(trunk.getHeight() == 0 && trunk.getType() != PREFILLED_SLOT && !trunk.getHash().equals(Hash.NULL_HASH)) {
