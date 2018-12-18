@@ -109,7 +109,7 @@ public class Curl implements Sponge {
                 method81();
                 break;
             default: throw new NoSuchElementException("Only Curl-P-27 and Curl-P-81 are supported.");
-        } 
+        }
 
 
 
