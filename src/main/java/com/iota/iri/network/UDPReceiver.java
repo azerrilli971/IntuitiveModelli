@@ -1,8 +1,6 @@
 package com.iota.iri.network;
 
 import com.iota.iri.conf.NodeConfig;
-import com.iota.iri.crypto.Sponge;
-import com.iota.iri.crypto.SpongeFactory;
 import com.iota.iri.model.Hash;
 
 import org.slf4j.Logger;
