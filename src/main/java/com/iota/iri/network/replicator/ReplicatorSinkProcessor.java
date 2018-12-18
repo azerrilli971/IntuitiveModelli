@@ -17,7 +17,7 @@ class ReplicatorSinkProcessor implements Runnable {
 
     private final TCPNeighbor neighbor;
     
-    public final static int CRC32_BYTES = 16;
+    public static final int CRC32_BYTES = 16;
     private final ReplicatorSinkPool replicatorSinkPool;
     private final int port;
     private int transactionPacketSize;
