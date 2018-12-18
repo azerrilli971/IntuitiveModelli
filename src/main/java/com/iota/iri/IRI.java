@@ -88,9 +88,33 @@ public class IRI {
     private static class IRILauncher {
         private static final Logger log = LoggerFactory.getLogger(IRILauncher.class);
 
-        public static Iota iota;
-        public static API api;
-        public static IXI ixi;
+        private static Iota iota;
+        private static API api;
+        private static IXI ixi;
+
+        public static API getApi() {
+            return api;
+        }
+
+        public static Iota getIota() {
+            return iota;
+        }
+
+        public static IXI getIxi() {
+            return ixi;
+        }
+
+        public static void setApi(API api) {
+            IRILauncher.api = api;
+        }
+
+        public static void setIota(Iota iota) {
+            IRILauncher.iota = iota;
+        }
+
+        public static void setIxi(IXI ixi) {
+            IRILauncher.ixi = ixi;
+        }
 
         /**
          * Starts IRI. Setup is as follows:
@@ -110,9 +134,9 @@ public class IRI {
             IotaConfig config = createConfiguration(args);
             log.info("Welcome to {} {}", config.isTestnet() ? TESTNET_NAME : MAINNET_NAME, VERSION);
 
-            iota = new Iota(config);
-            ixi = new IXI(iota);
-            api = new API(iota, ixi);
+            setIota(new Iota(config));
+            setIxi(new IXI(iota));
+            setApi(new API(getIota(), getIxi()));
             shutdownHook();
 
             try {
@@ -192,7 +216,7 @@ public class IRI {
             else if (IotaConfig.CONFIG_FILE.exists()) {
                 return IotaConfig.CONFIG_FILE;
             }
-            return null;
+            return IotaConfig.CONFIG_FILE;
         }
     }
 }

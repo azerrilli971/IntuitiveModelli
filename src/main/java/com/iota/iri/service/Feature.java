@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.iota.iri.conf.IotaConfig;
+import com.iota.iri.conf.APIConfig;
 
 /**
  * 
