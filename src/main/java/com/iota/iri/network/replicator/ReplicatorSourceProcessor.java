@@ -14,6 +14,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.zip.CRC32;
 
 class ReplicatorSourceProcessor implements Runnable {
@@ -34,15 +35,17 @@ class ReplicatorSourceProcessor implements Runnable {
     private final ReplicatorSinkPool replicatorSinkPool;
     private final int packetSize;
 
-    private boolean existingNeighbor;
+
     
-    private TCPNeighbor neighbor;
+
 
     public ReplicatorSourceProcessor(final ReplicatorSinkPool replicatorSinkPool,
                                      final Socket connection,
                                      final Node node,
                                      final int maxPeers,
                                      final boolean testnet) {
+
+
         this.connection = connection;
         this.node = node;
         this.maxPeers = maxPeers;
@@ -52,9 +55,10 @@ class ReplicatorSourceProcessor implements Runnable {
                 ? TestnetConfig.Defaults.PACKET_SIZE
                 : MainnetConfig.Defaults.PACKET_SIZE;
     }
-
+    private TCPNeighbor neighbor;
     @Override
     public void run() {
+
         int count;
         byte[] data = new byte[2000];
         int offset = 0;
@@ -62,22 +66,24 @@ class ReplicatorSourceProcessor implements Runnable {
         boolean finallyClose = true;
 
         try {
+            AtomicBoolean existingNeighbor = new AtomicBoolean(false);
+
             SocketAddress address = connection.getRemoteSocketAddress();
             InetSocketAddress inetSocketAddress = (InetSocketAddress) address;
 
-            existingNeighbor = false;
+            existingNeighbor.set(false);
             List<Neighbor> neighbors = node.getNeighbors();
             neighbors.stream().filter(n -> n instanceof TCPNeighbor)
                     .map(n -> ((TCPNeighbor) n))
                     .forEach(n -> {
                         String hisAddress = inetSocketAddress.getAddress().getHostAddress();
                         if (n.getHostAddress().equals(hisAddress)) {
-                            existingNeighbor = true;
+                            existingNeighbor.set(true);
                             neighbor = n;
                         }
                     });
             
-            if (!existingNeighbor) {
+            if (!existingNeighbor.get()) {
                 int maxPeersAllowed = maxPeers;
                 if (!testnet || Neighbor.getNumPeers() >= maxPeersAllowed) {
                     String hostAndPort = inetSocketAddress.getHostName() + ":" + inetSocketAddress.getPort();
