@@ -40,27 +40,34 @@ public class ReplicatorSinkPool  implements Runnable {
         this.transactionPacketSize = transactionPacketSize;
     }
 
+    public void doIt() {
+        List<Neighbor> neighbors = node.getNeighbors();
+        // wait until list is populated
+        int loopcnt = 10;
+        while ((loopcnt-- > 0) && neighbors.size() == 0) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt(); //Aggiunta dell'interruzione del thread
+                log.error("Interrupted");
+            }
+        }
+        neighbors.stream().filter(n -> n instanceof TCPNeighbor && n.isFlagged())
+                .map(n -> ((TCPNeighbor) n))
+                .forEach(this::createSink);
+
+    }
+
+
+
     @Override
     public void run() {
         
         sinkPool = Executors.newFixedThreadPool(Replicator.NUM_THREADS);
-        {           
-            List<Neighbor> neighbors = node.getNeighbors();
-            // wait until list is populated
-            int loopcnt = 10;
-            while ((loopcnt-- > 0) && neighbors.size() == 0) {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt(); //Aggiunta dell'interruzione del thread
-                    log.error("Interrupted");
-                }
-            }
-            neighbors.stream().filter(n -> n instanceof TCPNeighbor && n.isFlagged())
-                    .map(n -> ((TCPNeighbor) n))
-                    .forEach(this::createSink);
-        }
+
+        doIt();
         
+
         while (!Thread.interrupted()) {
             // Restart attempt for neighbors that are in the configuration.
             try {
@@ -77,7 +84,9 @@ public class ReplicatorSinkPool  implements Runnable {
                     .forEach(this::createSink);
         }
     }
-    
+
+
+
     public void createSink(TCPNeighbor neighbor) {
         Runnable proc = new ReplicatorSinkProcessor( neighbor, this, port, transactionPacketSize);
         sinkPool.submit(proc);
