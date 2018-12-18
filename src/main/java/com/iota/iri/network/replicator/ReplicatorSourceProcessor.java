@@ -22,7 +22,12 @@ class ReplicatorSourceProcessor implements Runnable {
 
     private final Socket connection;
 
-    private final boolean shutdown = false;
+    private static final boolean SHUTDOWN;
+
+    static {
+        SHUTDOWN= false;
+    }
+
     private final Node node;
     private final int maxPeers;
     private final boolean testnet;
@@ -133,7 +138,7 @@ class ReplicatorSourceProcessor implements Runnable {
             connection.setSoTimeout(0);  // infinite timeout - blocking read
 
             offset = 0;
-            while (!shutdown && !neighbor.isStopped()) {
+            while (!SHUTDOWN && !neighbor.isStopped()) {
 
                 while ( ((count = stream.read(data, offset, (packetSize- offset + ReplicatorSinkProcessor.CRC32_BYTES))) != -1)
                         && (offset < (packetSize + ReplicatorSinkProcessor.CRC32_BYTES))) {
