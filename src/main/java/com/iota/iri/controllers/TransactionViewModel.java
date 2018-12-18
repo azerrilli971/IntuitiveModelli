@@ -824,25 +824,26 @@ public class TransactionViewModel {
      * @throws Exception
      */
     public void updateHeights(Tangle tangle) throws Exception {
-        TransactionViewModel transactionVM = this, trunk = this.getTrunkTransaction(tangle);
+        TransactionViewModel transactionVM = this;
+        TransactionViewModel trunk2 = this.getTrunkTransaction(tangle);
         Stack<Hash> transactionViewModels = new Stack<>();
         transactionViewModels.push(transactionVM.getHash());
-        while(trunk.getHeight() == 0 && trunk.getType() != PREFILLED_SLOT && !trunk.getHash().equals(Hash.NULL_HASH)) {
-            transactionVM = trunk;
-            trunk = transactionVM.getTrunkTransaction(tangle);
+        while(trunk2.getHeight() == 0 && trunk2.getType() != PREFILLED_SLOT && !trunk2.getHash().equals(Hash.NULL_HASH)) {
+            transactionVM = trunk2;
+            trunk2 = transactionVM.getTrunkTransaction(tangle);
             transactionViewModels.push(transactionVM.getHash());
         }
         while(transactionViewModels.size() != 0) {
             transactionVM = TransactionViewModel.fromHash(tangle, transactionViewModels.pop());
             long currentHeight = transactionVM.getHeight();
-            if(Hash.NULL_HASH.equals(trunk.getHash()) && trunk.getHeight() == 0
+            if(Hash.NULL_HASH.equals(trunk2.getHash()) && trunk2.getHeight() == 0
                     && !Hash.NULL_HASH.equals(transactionVM.getHash())) {
                 if(currentHeight != 1L ){
                     transactionVM.updateHeight(1L);
                     transactionVM.update(tangle, "height");
                 }
-            } else if ( trunk.getType() != PREFILLED_SLOT && transactionVM.getHeight() == 0){
-                long newHeight = 1L + trunk.getHeight();
+            } else if ( trunk2.getType() != PREFILLED_SLOT && transactionVM.getHeight() == 0){
+                long newHeight = 1L + trunk2.getHeight();
                 if(currentHeight != newHeight) {
                     transactionVM.updateHeight(newHeight);
                     transactionVM.update(tangle, "height");
@@ -850,7 +851,7 @@ public class TransactionViewModel {
             } else {
                 break;
             }
-            trunk = transactionVM;
+            trunk2 = transactionVM;
         }
     }
 

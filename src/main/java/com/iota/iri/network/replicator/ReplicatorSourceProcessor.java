@@ -14,6 +14,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.zip.CRC32;
 
 class ReplicatorSourceProcessor implements Runnable {
@@ -22,22 +23,29 @@ class ReplicatorSourceProcessor implements Runnable {
 
     private final Socket connection;
 
-    private final boolean shutdown = false;
+    private static final boolean SHUTDOWN;
+
+    static {
+        SHUTDOWN= false;
+    }
+
     private final Node node;
     private final int maxPeers;
     private final boolean testnet;
     private final ReplicatorSinkPool replicatorSinkPool;
     private final int packetSize;
 
-    private boolean existingNeighbor;
+
     
-    private TCPNeighbor neighbor;
+
 
     public ReplicatorSourceProcessor(final ReplicatorSinkPool replicatorSinkPool,
                                      final Socket connection,
                                      final Node node,
                                      final int maxPeers,
                                      final boolean testnet) {
+
+
         this.connection = connection;
         this.node = node;
         this.maxPeers = maxPeers;
@@ -47,9 +55,10 @@ class ReplicatorSourceProcessor implements Runnable {
                 ? TestnetConfig.Defaults.PACKET_SIZE
                 : MainnetConfig.Defaults.PACKET_SIZE;
     }
-
+    private TCPNeighbor neighbor;
     @Override
     public void run() {
+
         int count;
         byte[] data = new byte[2000];
         int offset = 0;
@@ -57,31 +66,33 @@ class ReplicatorSourceProcessor implements Runnable {
         boolean finallyClose = true;
 
         try {
+            AtomicBoolean existingNeighbor = new AtomicBoolean(false);
+
             SocketAddress address = connection.getRemoteSocketAddress();
             InetSocketAddress inetSocketAddress = (InetSocketAddress) address;
 
-            existingNeighbor = false;
+            existingNeighbor.set(false);
             List<Neighbor> neighbors = node.getNeighbors();
             neighbors.stream().filter(n -> n instanceof TCPNeighbor)
                     .map(n -> ((TCPNeighbor) n))
                     .forEach(n -> {
                         String hisAddress = inetSocketAddress.getAddress().getHostAddress();
                         if (n.getHostAddress().equals(hisAddress)) {
-                            existingNeighbor = true;
+                            existingNeighbor.set(true);
                             neighbor = n;
                         }
                     });
             
-            if (!existingNeighbor) {
+            if (!existingNeighbor.get()) {
                 int maxPeersAllowed = maxPeers;
                 if (!testnet || Neighbor.getNumPeers() >= maxPeersAllowed) {
-                    String hostAndPort = inetSocketAddress.getHostName() + ":" + String.valueOf(inetSocketAddress.getPort());
+                    String hostAndPort = inetSocketAddress.getHostName() + ":" + inetSocketAddress.getPort();
                     if (Node.getRejectedAddresses().add(inetSocketAddress.getHostName())) {
                         String sb = "***** NETWORK ALERT ***** Got connected from unknown neighbor tcp://"
                             + hostAndPort
                             + " (" + inetSocketAddress.getAddress().getHostAddress() + ") - closing connection";
                         if (testnet && Neighbor.getNumPeers() >= maxPeersAllowed) {
-                            sb = sb + (" (max-peers allowed is "+String.valueOf(maxPeersAllowed)+")");
+                            sb = sb + (" (max-peers allowed is "+ maxPeersAllowed+")");
                         }
                         log.info(sb);
                     }
@@ -133,7 +144,7 @@ class ReplicatorSourceProcessor implements Runnable {
             connection.setSoTimeout(0);  // infinite timeout - blocking read
 
             offset = 0;
-            while (!shutdown && !neighbor.isStopped()) {
+            while (!SHUTDOWN && !neighbor.isStopped()) {
 
                 while ( ((count = stream.read(data, offset, (packetSize- offset + ReplicatorSinkProcessor.CRC32_BYTES))) != -1)
                         && (offset < (packetSize + ReplicatorSinkProcessor.CRC32_BYTES))) {
@@ -152,8 +163,10 @@ class ReplicatorSourceProcessor implements Runnable {
                         crc32.update(data[i]);
                     }
                     String crc32String = Long.toHexString(crc32.getValue());
+                    String tocon = "0";
+
                     while (crc32String.length() < ReplicatorSinkProcessor.CRC32_BYTES) {
-                        crc32String = "0"+crc32String;
+                        crc32String = tocon.concat(crc32String);
                     }
                     byte [] crc32Bytes = crc32String.getBytes();
                     
