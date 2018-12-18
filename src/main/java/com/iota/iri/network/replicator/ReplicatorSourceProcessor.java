@@ -81,7 +81,7 @@ class ReplicatorSourceProcessor implements Runnable {
                             + hostAndPort
                             + " (" + inetSocketAddress.getAddress().getHostAddress() + ") - closing connection";
                         if (testnet && Neighbor.getNumPeers() >= maxPeersAllowed) {
-                            sb = sb + (" (max-peers allowed is "+String.valueOf(maxPeersAllowed)+")");
+                            sb = sb + (" (max-peers allowed is "+ maxPeersAllowed+")");
                         }
                         log.info(sb);
                     }
